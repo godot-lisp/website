@@ -1,0 +1,304 @@
+<!-- </body> JS -->
+<script type="text/javascript" src="/js/jquery-3.2.1.slim.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+
+<script>
+(function(){
+  function updateParens() {
+    var span = document.querySelector('.fill-parens');
+    var title = document.querySelector('.no-border .title');
+    if (!span || !title) return;
+
+    // Find the content area to constrain the parens so they don't overflow the content column
+    var container = document.getElementById('content') || document.querySelector('.container') || document.body;
+    var titleRect = title.getBoundingClientRect();
+    var containerRect = container.getBoundingClientRect();
+    var available = Math.max(0, containerRect.right - titleRect.right - 8); // leave a small buffer
+    if (available <= 0) { span.textContent = ''; return; }
+
+    // Measure a single ')' in the title's font
+    var meas = document.createElement('span');
+    meas.style.visibility = 'hidden';
+    meas.style.position = 'absolute';
+    meas.style.whiteSpace = 'nowrap';
+    var computed = window.getComputedStyle(title);
+    meas.style.font = computed.font || (computed.fontSize + ' ' + computed.fontFamily);
+    meas.textContent = ')';
+    document.body.appendChild(meas);
+    var charWidth = meas.getBoundingClientRect().width || 8;
+    document.body.removeChild(meas);
+
+    // Detect zoom level (only subtract parens at 100% zoom)
+    var zoomTest = document.createElement('div');
+    zoomTest.style.fontSize = '16px';
+    zoomTest.style.visibility = 'hidden';
+    zoomTest.style.position = 'absolute';
+    document.body.appendChild(zoomTest);
+    var zoomComputed = window.getComputedStyle(zoomTest).fontSize;
+    document.body.removeChild(zoomTest);
+    var zoom = parseFloat(zoomComputed) / 16;
+
+    var count = Math.floor(available / charWidth);
+    if (zoom === 1) count -= 4;
+    count = Math.max(0, count);
+
+    // Color gradient: dark → light. Start from --theme-primary (fallback to secondary) and interpolate toward a near-white target
+    var style = window.getComputedStyle(document.documentElement);
+    var startColor = style.getPropertyValue('--theme-primary') || style.getPropertyValue('--theme-secondary') || '#006400';
+    // compute target background from container (falls back to white)
+    var containerBg = window.getComputedStyle(container).backgroundColor || window.getComputedStyle(document.body).backgroundColor || '#ffffff';
+
+    // helper: parse rgb/hex into {r,g,b}
+    function parseColor(col) {
+      col = col.trim();
+      if (col.indexOf('rgb') === 0) {
+        var m = col.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        if (m) return {r: +m[1], g: +m[2], b: +m[3]};
+      }
+      // hex
+      if (col.indexOf('#') === 0) {
+        var hex = col.substring(1);
+        if (hex.length === 3) hex = hex.split('').map(function(c){ return c + c; }).join('');
+        return {r: parseInt(hex.substring(0,2),16), g: parseInt(hex.substring(2,4),16), b: parseInt(hex.substring(4,6),16)};
+      }
+      return {r:0,g:0,b:0};
+    }
+
+    // mix container background toward white so the far-right parens go even lighter than the container
+    function mixWithWhite(rgb, amount){
+      return { r: Math.round(rgb.r * (1 - amount) + 255 * amount),
+               g: Math.round(rgb.g * (1 - amount) + 255 * amount),
+               b: Math.round(rgb.b * (1 - amount) + 255 * amount) };
+    }
+
+    var c1 = parseColor(startColor);
+    var c2 = mixWithWhite(parseColor(containerBg), 0.9);
+
+    if (count === 0) { span.textContent = ''; return; }
+    var html = '';
+    for (var i = 0; i < count; i++) {
+      var t = count === 1 ? 1 : i / (count - 1); // 0..1 across the run
+      var r = Math.round(c1.r * (1 - t) + c2.r * t);
+      var g = Math.round(c1.g * (1 - t) + c2.g * t);
+      var b = Math.round(c1.b * (1 - t) + c2.b * t);
+      html += '<span style="color: rgb(' + r + ',' + g + ',' + b + ')">)</span>';
+    }
+    span.innerHTML = html;
+  }
+
+  var ro;
+  if (window.ResizeObserver) {
+    ro = new ResizeObserver(function(){ updateParens(); });
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    updateParens();
+    var container = document.getElementById('content') || document.querySelector('.container') || document.body;
+    if (container && ro) ro.observe(container);
+    window.addEventListener('resize', updateParens);
+
+    // Sidebar toggle functionality
+    const leftSidebarToggle = document.getElementById('left-sidebar-toggle');
+    const rightSidebarToggle = document.getElementById('right-sidebar-toggle');
+    const leftSidebar = document.querySelector('.sidebar-left');
+    const rightSidebar = document.querySelector('.sidebar-right');
+    const mainContent = document.querySelector('main.col-md-6');
+
+    // Function to check if we're on mobile (below md breakpoint)
+    function isMobile() {
+      return window.innerWidth < 768;
+    }
+
+    // Initialize sidebar states based on screen size
+    function initializeSidebarStates() {
+      if (isMobile()) {
+        // On mobile, hide sidebars by default
+        if (leftSidebar) leftSidebar.classList.add('sidebar-mobile-hidden');
+        if (rightSidebar) rightSidebar.classList.add('sidebar-mobile-hidden');
+      } else {
+        // On desktop, ensure sidebars are visible (remove any mobile hidden state)
+        if (leftSidebar) leftSidebar.classList.remove('sidebar-mobile-hidden');
+        if (rightSidebar) rightSidebar.classList.remove('sidebar-mobile-hidden');
+      }
+      updateMainContentColumns();
+    }
+
+    // Initialize on page load
+    initializeSidebarStates();
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+      initializeSidebarStates();
+    });
+
+    // Function to update main content column classes based on sidebar visibility
+    function updateMainContentColumns() {
+      if (!mainContent) return;
+      
+      if (isMobile()) {
+        // On mobile, check which sidebar is visible
+        const leftVisible = leftSidebar && !leftSidebar.classList.contains('sidebar-mobile-hidden');
+        const rightVisible = rightSidebar && !rightSidebar.classList.contains('sidebar-mobile-hidden');
+        
+        mainContent.classList.remove('col-12', 'col-9', 'col-6');
+        
+        if (leftVisible || rightVisible) {
+          mainContent.classList.add('col-9'); // Sidebar visible, content takes 75%
+        } else {
+          mainContent.classList.add('col-12'); // No sidebars, content takes 100%
+        }
+      } else {
+        // Desktop behavior
+        const leftCollapsed = leftSidebar && leftSidebar.classList.contains('collapsed');
+        const rightCollapsed = rightSidebar && rightSidebar.classList.contains('collapsed');
+        
+        mainContent.classList.remove('col-md-6', 'col-md-9', 'col-md-12');
+        
+        if (leftCollapsed && rightCollapsed) {
+          mainContent.classList.add('col-md-12');
+        } else if (leftCollapsed || rightCollapsed) {
+          mainContent.classList.add('col-md-9');
+        } else {
+          mainContent.classList.add('col-md-6');
+        }
+      }
+    }
+
+    // Function to handle mobile sidebar toggling
+    function toggleMobileSidebar(showLeft) {
+      if (!isMobile()) return;
+      
+      // Hide both sidebars first
+      if (leftSidebar) leftSidebar.classList.add('sidebar-mobile-hidden');
+      if (rightSidebar) rightSidebar.classList.add('sidebar-mobile-hidden');
+      
+      // Show the requested sidebar
+      if (showLeft && leftSidebar) {
+        leftSidebar.classList.remove('sidebar-mobile-hidden');
+      } else if (!showLeft && rightSidebar) {
+        rightSidebar.classList.remove('sidebar-mobile-hidden');
+      }
+      
+      updateMainContentColumns();
+    }
+
+    if (leftSidebarToggle && leftSidebar) {
+      leftSidebarToggle.addEventListener('click', function() {
+        if (isMobile()) {
+          // Mobile: toggle left sidebar visibility
+          const isCurrentlyVisible = !leftSidebar.classList.contains('sidebar-mobile-hidden');
+          if (isCurrentlyVisible) {
+            // Hide left sidebar
+            leftSidebar.classList.add('sidebar-mobile-hidden');
+          } else {
+            // Show left sidebar, hide right
+            toggleMobileSidebar(true);
+          }
+        } else {
+          // Desktop: toggle collapsed state
+          leftSidebar.classList.toggle('collapsed');
+        }
+        updateMainContentColumns();
+        
+        // Update button icon
+        const icon = this.querySelector('i');
+        if (icon) {
+          if (isMobile()) {
+            const isVisible = !leftSidebar.classList.contains('sidebar-mobile-hidden');
+            icon.className = isVisible ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+          } else {
+            const isCollapsed = leftSidebar.classList.contains('collapsed');
+            icon.className = isCollapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+          }
+        }
+      });
+    }
+
+    if (rightSidebarToggle && rightSidebar) {
+      rightSidebarToggle.addEventListener('click', function() {
+        if (isMobile()) {
+          // Mobile: toggle right sidebar visibility
+          const isCurrentlyVisible = !rightSidebar.classList.contains('sidebar-mobile-hidden');
+          if (isCurrentlyVisible) {
+            // Hide right sidebar
+            rightSidebar.classList.add('sidebar-mobile-hidden');
+          } else {
+            // Show right sidebar, hide left
+            toggleMobileSidebar(false);
+          }
+        } else {
+          // Desktop: toggle collapsed state
+          rightSidebar.classList.toggle('collapsed');
+        }
+        updateMainContentColumns();
+        
+        // Update button icon
+        const icon = this.querySelector('i');
+        if (icon) {
+          if (isMobile()) {
+            const isVisible = !rightSidebar.classList.contains('sidebar-mobile-hidden');
+            icon.className = isVisible ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+          } else {
+            const isCollapsed = rightSidebar.classList.contains('collapsed');
+            icon.className = isCollapsed ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+          }
+        }
+      });
+    }
+
+    // Documentation search functionality
+    const docsSearch = document.getElementById('docs-search');
+    const navItems = document.querySelectorAll('.sidebar-left .nav-item');
+
+    if (docsSearch && navItems.length > 0) {
+      // Add click handler for search button
+      const searchButton = docsSearch.parentElement.querySelector('.input-group-text');
+      if (searchButton) {
+        searchButton.style.cursor = 'pointer';
+        searchButton.addEventListener('click', function() {
+          const query = docsSearch.value.trim();
+          if (query) {
+            window.location.href = `/search/?q=${encodeURIComponent(query)}`;
+          }
+        });
+      }
+
+      // Enter key handler
+      docsSearch.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          const query = this.value.trim();
+          if (query) {
+            window.location.href = `/search/?q=${encodeURIComponent(query)}`;
+          }
+        }
+      });
+    }
+  });
+})();
+
+// Quote carousel
+(function() {
+  var carousel = document.querySelector('.quote-carousel');
+  var quotes = document.querySelectorAll('.quote-carousel .quote');
+  var current = 0;
+  
+  function showQuote(index) {
+    quotes.forEach(function(quote, i) {
+      quote.classList.toggle('active', i === index);
+    });
+  }
+  
+  function nextQuote() {
+    current = (current + 1) % quotes.length;
+    showQuote(current);
+  }
+  
+  if (quotes.length > 1) {
+    // Auto-rotate every 5 seconds
+    setInterval(nextQuote, 5000);
+    
+    // Click to toggle
+    carousel.addEventListener('click', nextQuote);
+  }
+})();
+</script>

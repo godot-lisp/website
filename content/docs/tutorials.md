@@ -1,0 +1,16 @@
+---
+title: "Tutorials"
+description: "Step-by-step tutorials for GOLI"
+date: 2025-12-16
+draft: false
+type: docs
+weight: 5
+category: "learning"
+icon: "fas fa-graduation-cap"
+menu:
+  docs:
+    parent: "getting-started"
+    weight: 4
+---
+
+# Tutorials

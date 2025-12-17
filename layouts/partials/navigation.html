@@ -1,0 +1,68 @@
+<!-- A standard Twitter Bootstrap nav bar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+
+  <a href="{{ .Site.BaseURL }}" class="navbar-brand">
+    <img src="/logo.png" alt="Logo" class="navbar-logo" />
+    <span>GOLI</span>
+  </a>
+
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbar_collapse" aria-controls="navbar_collapse"
+          aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbar_collapse">
+      <ul class="navbar-nav mr-auto">
+        {{ if .Site.Taxonomies.tags }}
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Tags <b class="caret"></b>
+          </a>
+
+          <div class="dropdown-menu" style="background-color: #006400; border: 1px solid #3B9C3F; border-radius: 0.25rem;">
+            {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+            <a class="dropdown-item themed-dropdown-item" href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}">{{ $name }}</a>
+            {{ end }}
+          </div>
+        </li>
+        {{ end }}
+
+        <li class="nav-item">
+          <a class="nav-link" href="/news/">News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/docs/">Docs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/releases/">Rels</a>
+        </li>
+
+        {{ range .Site.Menus.main }}
+        <li class="nav-item{{ if $.IsMenuCurrent "main" . }} active{{ end }}">
+          <a class="nav-link" href="{{ .URL }}">{{ .Name }}</a>
+        </li>
+        {{ end }}
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/feeds/news/all.rss.xml" aria-label="RSS Feed">
+            <i class="fas fa-rss" style="font-size: 1.2em;"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/sponsors/godot-lisp" target="_blank" aria-label="Support">
+            <i class="fas fa-dollar-sign" style="font-size: 1.2em;"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/godot-lisp" target="_blank" aria-label="GitHub Repository">
+            <i class="fab fa-github" style="font-size: 1.2em;"></i>
+          </a>
+        </li>
+      </ul>
+  </div>
+
+  </div>
+</nav>

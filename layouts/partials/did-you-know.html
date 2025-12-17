@@ -1,0 +1,74 @@
+{{/* Name Quote Section */}}
+<style>
+.did-you-know-section {
+  background: var(--theme-bg-white);
+  border: 2px solid var(--theme-primary);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 0 auto 0.5rem;
+  position: relative;
+  display: block;
+  max-width: 900px;
+  min-height: 120px;
+}
+.did-you-know-section::before {
+  content: '';
+  position: absolute;
+  bottom: -22px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  border-left: 22px solid transparent;
+  border-right: 22px solid transparent;
+  border-top: 22px solid var(--theme-primary);
+}
+.did-you-know-section::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  right: 30px;
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid var(--theme-bg-white);
+}
+.did-you-know-section h4 {
+  color: var(--theme-primary);
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+.did-you-know-section blockquote {
+  font-style: italic;
+  color: #6c757d;
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+}
+.quote-carousel .quote {
+  display: none;
+}
+.quote-carousel .quote.active {
+  display: block;
+}
+</style>
+
+<div class="did-you-know-section">
+  <h4>Did You Know?</h4>
+  <div class="quote-carousel">
+    <blockquote class="quote active">
+      Goli is a not-so subtle reference to NaughtyDog's classic implementation of their Lisp based scripting language big properties like Crash Bandicoot and Jak & Daxter used. <a href="https://en.wikipedia.org/wiki/Game_Oriented_Assembly_Lisp" style="color: #6c757d; text-decoration: none;">G.O.A.L</a>
+    </blockquote>
+    <blockquote class="quote">
+      Lisp is the second oldest high-level programming-language family; That's been around since 1958!
+    </blockquote>
+    <blockquote class="quote">
+      Lisp used to be super-relevant in the 1980s as a graphics, ai, operating-system implementation language..
+    </blockquote>
+    <blockquote class="quote">
+      The creator of Lisp coined the term AI (Artificial Intelligence).
+    </blockquote>
+  </div>
+</div>

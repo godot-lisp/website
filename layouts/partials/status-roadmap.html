@@ -1,0 +1,76 @@
+{{/* Current Status and Roadmap Section */}}
+<style>
+.status-alert {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1.5rem 0;
+}
+.status-alert h4 {
+  color: #856404;
+}
+.status-alert p {
+  color: #856404;
+  margin-bottom: 0;
+}
+.timeline {
+  margin: 2rem 0;
+}
+.timeline-item {
+  border-left: 3px solid #A4D23B;
+  padding-left: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.timeline-item.inactive {
+  border-left: 3px solid #ddd;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  background: #A4D23B;
+  border-radius: 50%;
+}
+.timeline-item.inactive::before {
+  background: #ddd;
+}
+.timeline-item h4 {
+  color: #3B9C3F;
+}
+.timeline-item.inactive h4 {
+  color: #777;
+}
+.timeline-item small {
+  color: #777;
+}
+.status-active {
+  color: #3B9C3F;
+  font-weight: bold;
+}
+</style>
+
+<h3>Roadmap & Milestones</h3>
+<div class="timeline">
+  <div class="timeline-item">
+    <h4>Phase 1: Core Integration</h4>
+    <p>Dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <small>Status: <span class="status-active">In Progress</span></small>
+  </div>
+  
+  <div class="timeline-item inactive">
+    <h4>Phase 2: Developer Experience</h4>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <small>Status: <span>Planned</span></small>
+  </div>
+  
+  <div class="timeline-item inactive">
+    <h4>Phase 3: Polish & Performance</h4>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    <small>Status: <span>Future</span></small>
+  </div>
+</div>

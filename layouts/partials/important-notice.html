@@ -1,0 +1,58 @@
+{{/* Important Notice Section */}}
+<style>
+.notice-section {
+  background: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.notice-section h3 {
+  color: #856404;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.notice-section h3:hover {
+  background-color: rgba(255, 193, 7, 0.08);
+  border-radius: 4px;
+  /* Avoid changing layout on hover — only visual change */
+}
+.notice-section p {
+  color: #856404;
+  margin-bottom: 0;
+  display: none;
+  margin-top: 1rem;
+}
+.notice-section.expanded p {
+  display: block;
+}
+.notice-section a {
+  color: #856404;
+  text-decoration: underline;
+}
+.toggle-arrow {
+  font-size: 0.8em;
+  transition: transform 0.3s ease;
+}
+.notice-section.expanded .toggle-arrow {
+  transform: rotate(90deg);
+}
+</style>
+
+
+<div class="notice-section" onclick="toggleNotice(this)">
+  <h3>⚠️ Important Notice <span class="toggle-arrow">▶</span></h3>
+  <p>
+    This is project inherently, exploratory / experimental -- we're trying see the viability of using Lisp in Godot (as a first-class scripting language); as-well as gauge general interest in such. This should be considered in perpetual beta, so... probably don't use this is for "serious projects". We offer no compatibility promise between versions, no stability promises in general, or any warranty at all implicit or implied.
+  </p>
+</div>
+
+<script>
+function toggleNotice(element) {
+  element.classList.toggle('expanded');
+}
+</script>

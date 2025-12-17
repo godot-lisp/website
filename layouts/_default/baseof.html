@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+  {{ partial "head.html" . }}
+  <body>
+    {{ partial "navigation.html" . }}
+    
+    <div class="main-content">
+      <div class="container">
+        <div class="row">
+          <!-- Main column -->
+          <div id="content" class="col-md-12">
+            {{ block "main" . }}{{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {{ partial "footer.html" . }}
+    
+    {{ partial "scripts.html" . }}
+  </body>
+</html>

@@ -1,0 +1,11 @@
+{{/* Shortcode: glitz-faq-item
+   Usage:
+   {{< glitz-faq-item question="What is GOLI?" >}}
+   GOLI is a Lisp extension for Godot.
+   {{< /glitz-faq-item >}}
+*/}}
+{{ $question := .Get "question" | default "Question?" }}
+{{ $inner := .Inner | default "" }}
+{{ $answer := cond (ne $inner "") ($inner | markdownify) nil }}
+{{ $id := printf "faq-%s" (md5 $question) }}
+{{ partial "glitz/faq-item.html" (dict "question" $question "answer" $answer "id" $id) }}

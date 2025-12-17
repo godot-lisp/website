@@ -1,0 +1,8 @@
+# Hugo build output directory
+public/
+
+# Hugo resources directory (if it gets generated)
+resources/_gen/
+
+# Hugo lock file
+.hugo_build.lock

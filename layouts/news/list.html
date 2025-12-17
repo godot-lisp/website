@@ -1,0 +1,191 @@
+{{- define "title" }}{{ .Title }} | {{ .Site.Title }}{{- end }}
+{{- define "main" }}
+<div class="news-overview">
+  <div class="container">
+    <div class="news-header">
+      <h1>{{ .Title }}</h1>
+      <p>Stay updated with the latest news and updates from the GOLI project.</p>
+    </div>
+
+    <div class="news-filters">
+      <div class="filter-row">
+        <div class="filter-group combined">
+          <div class="date-part">
+            <h4>Filter by Date:</h4>
+            <div class="date-filter-controls">
+              <select id="date-filter-type" class="date-select">
+                <option value="all">All Dates</option>
+                <option value="this-year">This Year</option>
+                <option value="between">Between</option>
+                <option value="before">Before</option>
+                <option value="after">After</option>
+              </select>
+              <div id="date-inputs" class="date-inputs" style="display: none;">
+                <input type="number" id="date-start" class="date-input" placeholder="Year" min="2000" max="2030">
+                <span id="date-separator" style="display: none;"> to </span>
+                <input type="number" id="date-end" class="date-input" placeholder="Year" min="2000" max="2030" style="display: none;">
+              </div>
+            </div>
+          </div>
+          <div class="category-part">
+            <h4>Filter by Caty:</h4>
+            <div class="category-filter-controls">
+              <select id="category-filter" class="category-select">
+                <option value="all">All Catys</option>
+                {{ $allCategories := slice }}
+                {{ range .Pages }}
+                  {{ if .Params.category }}
+                    {{ $allCategories = $allCategories | append .Params.category }}
+                  {{ end }}
+                {{ end }}
+                {{ $uniqueCategories := $allCategories | uniq }}
+                {{ range $uniqueCategories }}
+                <option value="{{ . }}">{{ . }}</option>
+                {{ end }}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <h4>Filter by Tags:</h4>
+          <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            {{ $allTags := slice }}
+            {{ range .Pages }}
+              {{ range .Params.tags }}
+                {{ $allTags = $allTags | append . }}
+              {{ end }}
+            {{ end }}
+            {{ $uniqueTags := $allTags | uniq }}
+            {{ range $uniqueTags }}
+            <button class="filter-btn" data-filter="{{ . }}">{{ . | title }}</button>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="news-search" placeholder="Search news articles..." class="search-input">
+      </div>
+    </div>
+
+    <div class="news-grid">
+      {{ range .Pages }}
+        <a href="{{ .Permalink }}" class="news-card-link" data-tags="{{ delimit .Params.tags "," }}" data-date="{{ .Date.Format "2006-01-02" }}" data-title="{{ .Title | lower }}" data-summary="{{ .Summary | lower }}" data-category="{{ .Params.category | default "" }}">
+          <div class="news-card">
+            <div class="news-card-content">
+              <h3 class="news-card-title">
+                {{ .Title }}
+              </h3>
+              <p class="news-card-date">{{ .Date.Format "January 2, 2006" }}</p>
+              {{ if .Params.tags }}
+              <p class="news-card-tags">
+                {{ range $index, $tag := .Params.tags }}
+                  {{ if $index }} • {{ end }}<span class="tag">{{ $tag }}</span>
+                {{ end }}
+              </p>
+              {{ end }}
+              <p class="news-card-summary">{{ .Params.synopsis | default .Summary }}</p>
+            </div>
+            <div class="news-card-arrow">
+              <i class="fas fa-chevron-right"></i>
+            </div>
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const dateFilterType = document.getElementById('date-filter-type');
+  const dateInputs = document.getElementById('date-inputs');
+  const dateStart = document.getElementById('date-start');
+  const dateEnd = document.getElementById('date-end');
+  const dateSeparator = document.getElementById('date-separator');
+  const searchInput = document.getElementById('news-search');
+  const categoryFilter = document.getElementById('category-filter');
+  const newsCards = document.querySelectorAll('.news-card-link');
+
+  function updateDateInputs() {
+    const type = dateFilterType.value;
+    if (type === 'before' || type === 'after') {
+      dateInputs.style.display = 'inline-block';
+      dateStart.style.display = 'inline-block';
+      dateEnd.style.display = 'none';
+      dateSeparator.style.display = 'none';
+    } else if (type === 'between') {
+      dateInputs.style.display = 'inline-block';
+      dateStart.style.display = 'inline-block';
+      dateEnd.style.display = 'inline-block';
+      dateSeparator.style.display = 'inline-block';
+    } else {
+      dateInputs.style.display = 'none';
+    }
+  }
+
+  function applyFilters() {
+    const activeTag = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+    const dateType = dateFilterType.value;
+    const startYear = parseInt(dateStart.value) || null;
+    const endYear = parseInt(dateEnd.value) || null;
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const selectedCategory = categoryFilter.value;
+    
+    newsCards.forEach(card => {
+      const tags = card.getAttribute('data-tags') || '';
+      const cardDate = new Date(card.getAttribute('data-date'));
+      const cardYear = cardDate.getFullYear();
+      const title = card.getAttribute('data-title') || '';
+      const summary = card.getAttribute('data-summary') || '';
+      const category = card.getAttribute('data-category') || '';
+      
+      const tagMatch = activeTag === 'all' || tags.includes(activeTag);
+      
+      let dateMatch = true;
+      if (dateType === 'this-year') {
+        const currentYear = new Date().getFullYear();
+        dateMatch = cardYear === currentYear;
+      } else if (dateType === 'before' && startYear) {
+        dateMatch = cardYear < startYear;
+      } else if (dateType === 'after' && startYear) {
+        dateMatch = cardYear > startYear;
+      } else if (dateType === 'between' && startYear && endYear) {
+        dateMatch = cardYear >= startYear && cardYear <= endYear;
+      }
+      
+      const searchMatch = searchTerm === '' || title.includes(searchTerm) || summary.includes(searchTerm);
+      
+      const categoryMatch = selectedCategory === 'all' || category === selectedCategory;
+      
+      if (tagMatch && dateMatch && searchMatch && categoryMatch) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  dateFilterType.addEventListener('change', function() {
+    updateDateInputs();
+    applyFilters();
+  });
+
+  dateStart.addEventListener('change', applyFilters);
+  dateEnd.addEventListener('change', applyFilters);
+  searchInput.addEventListener('input', applyFilters);
+  categoryFilter.addEventListener('change', applyFilters);
+
+  updateDateInputs();
+});
+</script>
+{{- end }}

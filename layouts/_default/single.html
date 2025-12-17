@@ -1,0 +1,23 @@
+{{ define "main" }}
+<article>
+  <header>
+    <h1>{{ .Title }}</h1>
+    {{ if not .IsPage }}
+    <p class='date-and-tags'>
+    <time datetime="{{ .Date.Format "2006-01-02" }}" pubdate="true">{{ .Date.Format "2006-01-02" }}</time>
+    {{ if .Params.tags }}
+     :: <span class="tags">
+      {{ $tags := .Params.tags }}
+      {{ range $index, $tag := $tags }}
+        {{ if $index }}, {{ end }}<a href="{{ "/tags/" | relLangURL }}{{ $tag | urlize }}">{{ $tag }}</a>
+      {{ end }}
+    </span>
+    {{ end }}
+    </p>
+    <p class='authors'>By: <span class="authors">{{ .Site.Params.author }}</span></p>
+    {{ end }}
+  </header>
+
+  {{ .Content }}
+</article>
+{{ end }}

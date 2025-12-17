@@ -1,0 +1,165 @@
+{{ define "main" }}
+<style>
+.lighter-green {
+  color: #A4D23B;
+}
+.no-border {
+  border-bottom: none;
+  margin-top: 0.2em;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: baseline;
+}
+.no-border .title {
+  white-space: nowrap;
+}
+.open-paren {
+  color: var(--theme-primary);
+  margin-right: 0.25rem;
+  font-weight: 700;
+  opacity: 0.95;
+  font-family: inherit;
+  line-height: inherit;
+} 
+.fill-parens {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: baseline;
+  text-align: right;
+  white-space: nowrap;
+  overflow: visible;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+.fill-parens span {
+  transition: color 160ms linear;
+  display: inline-block;
+  line-height: inherit;
+}
+.fill-parens[aria-hidden="true"] {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.95;
+} 
+</style>
+<h1 class="no-border"><span class="title"><span class="open-paren">'(</span>GOLI Is <span class="lighter-green">Go</span>dot + <span class="lighter-green">Li</span>sp</span><span class="fill-parens" aria-hidden="true"></span></h1>
+
+
+{{ partial "hero-section.html" . }}
+
+<div class="cta-section">
+  <style>
+    .cta-section { display: flex; gap: 1rem; justify-content: center; align-items: center; margin: 1.25rem 0; flex-wrap: wrap; }
+    .cta-section .btn { min-width: 180px; }
+  </style>
+  <a class="btn btn-lg btn-primary" href="/releases/" target="_blank" rel="noopener">Download</a>
+  <a class="btn btn-lg btn-outline-primary" href="/docs/">Read Docs</a>
+</div>
+
+{{ partial "did-you-know.html" . }}
+{{ partial "important-notice.html" . }}
+{{ partial "status-roadmap.html" . }}
+
+<div class="recent-updates">
+  <h2>Updates / News</h2>
+
+  {{ $news := where .Site.RegularPages ".Type" "news" }}
+  {{ $featured := where $news ".Params.featured" true | first 1 }}
+  {{ $spotlight := where $news ".Params.spotlight" true | first 2 }}
+  {{ $recent := $news | first 3 }}
+
+  <!-- Featured -->
+  {{ if $featured }}
+  <div class="updates-section featured-section">
+    <h3>Featured</h3>
+    {{ range $featured }}
+    <article class="featured-article">
+      <header>
+        <h4><a href='{{ .Permalink }}'>{{ .Title }}</a></h4>
+        <p class='date-and-tags'>
+        <time datetime="{{ .Date.Format "2006-01-02" }}" pubdate="true">{{ .Date.Format "2006-01-02" }}</time>
+        {{ if .Params.tags }}
+         :: <span class="tags">
+          {{ $tags := .Params.tags }}
+          {{ range $index, $tag := $tags }}
+            {{ if $index }}, {{ end }}<a href="{{ "/tags/" | relLangURL }}{{ $tag | urlize }}">{{ $tag }}</a>
+          {{ end }}
+        </span>
+        {{ end }}
+        </p>
+      </header>
+      <p>{{ .Params.synopsis | default .Summary }}</p>
+      <a href="{{ .Permalink }}" class="read-more">Read More</a>
+    </article>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  <!-- Community Spotlight -->
+  {{ if $spotlight }}
+  <div class="updates-section community-section">
+    <h3>Spotlight</h3>
+    <div class="community-articles">
+      {{ range $spotlight }}
+      <article class="community-article">
+        <header>
+          <h4><a href='{{ .Permalink }}'>{{ .Title }}</a></h4>
+          <p class='date-and-tags'>
+          <time datetime="{{ .Date.Format "2006-01-02" }}" pubdate="true">{{ .Date.Format "2006-01-02" }}</time>
+          {{ if .Params.tags }}
+           :: <span class="tags">
+            {{ $tags := .Params.tags }}
+            {{ range $index, $tag := $tags }}
+              {{ if $index }}, {{ end }}<a href="{{ "/tags/" | relLangURL }}{{ $tag | urlize }}">{{ $tag }}</a>
+            {{ end }}
+          </span>
+          {{ end }}
+          </p>
+        </header>
+        <p>{{ .Params.synopsis | default .Summary }}</p>
+        <a href="{{ .Permalink }}" class="read-more">Read More</a>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <!-- Most Recent -->
+  {{ if $recent }}
+  <div class="updates-section recent-section">
+    <h3>Most Recent</h3>
+    <div class="recent-articles">
+      {{ range $recent }}
+      <article class="recent-article">
+        <header>
+          <h4><a href='{{ .Permalink }}'>{{ .Title }}</a></h4>
+          <p class='date-and-tags'>
+          <time datetime="{{ .Date.Format "2006-01-02" }}" pubdate="true">{{ .Date.Format "2006-01-02" }}</time>
+          {{ if .Params.tags }}
+           :: <span class="tags">
+            {{ $tags := .Params.tags }}
+            {{ range $index, $tag := $tags }}
+              {{ if $index }}, {{ end }}<a href="{{ "/tags/" | relLangURL }}{{ $tag | urlize }}">{{ $tag }}</a>
+            {{ end }}
+          </span>
+          {{ end }}
+          </p>
+        </header>
+        <p>{{ .Params.synopsis | default .Summary }}</p>
+        <a href="{{ .Permalink }}" class="read-more">Read More</a>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <div class="read-all-link">
+    <a href="/news/" class="two-tone-btn">
+      <span class="prefix">Extra Extra!</span>
+      <span class="suffix">Read All!</span>
+    </a>
+    <a href="/docs/what-it-is" class="about-it">(About It)</a>
+  </div>
+</div>{{ end }}

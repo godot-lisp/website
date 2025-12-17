@@ -1,0 +1,7 @@
+{{- define "title" }}{{ .Title }} | {{ .Site.Title }}{{- end }}
+{{- define "main" }}
+<div class="docs-content">
+  <h1 class="visually-hidden">{{ .Title }}</h1>
+  {{ .Content }}
+</div>
+{{- end }}

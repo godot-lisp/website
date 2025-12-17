@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+  {{ partial "head.html" . }}
+  <body>
+    {{ partial "navigation.html" . }}
+
+    <div class="main-content">
+      {{ if eq .Page.RelPermalink "/docs/" }}
+      <!-- Docs index page - no sidebar, full width -->
+      <div class="container">
+        {{ block "main" . }}{{ end }}
+      </div>
+      {{ else }}
+      <!-- Individual docs pages - with left and right sidebars -->
+      {{ partial "sidebar-toggle.html" . }}
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Left Sidebar - Navigation -->
+          <nav class="col-md-3 d-none d-md-block sidebar-left">
+            <div class="sidebar-sticky">
+              <!-- Search Bar -->
+              <div class="sidebar-search mb-3">
+                <div class="input-group">
+                  <input type="text" id="docs-search" class="form-control" placeholder="Search docs..." aria-label="Search documentation">
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                  </div>
+                </div>
+              </div>
+              <h5 class="sidebar-heading">Documentation</h5>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link overview-link{{ if eq .Page.RelPermalink "/docs/" }} active{{ end }}" href="/docs/">
+                    <i class="fas fa-home"></i> Overview
+                  </a>
+                </li>
+                {{ range .Site.Menus.docs }}
+                <li class="nav-item">
+                  <a class="nav-link{{ if eq $.Page.RelPermalink .URL }} active{{ end }}" href="{{ .URL }}">
+                    <i class="{{ if .Page }}{{ .Page.Params.icon | default "fas fa-file" }}{{ else }}fas fa-file{{ end }}"></i> {{ .Title }}
+                  </a>
+                  {{ if .HasChildren }}
+                  <ul class="nav flex-column sub-nav">
+                    {{ range .Children }}
+                    <li class="nav-item">
+                      <a class="nav-link{{ if eq $.Page.RelPermalink .URL }} active{{ end }}" href="{{ .URL }}">
+                        <i class="{{ if .Page }}{{ .Page.Params.icon | default "fas fa-file" }}{{ else }}fas fa-file{{ end }}"></i> {{ .Title }}
+                      </a>
+                    </li>
+                    {{ end }}
+                  </ul>
+                  {{ end }}
+                </li>
+                {{ end }}
+              </ul>
+            </div>
+          </nav>
+
+          <!-- Main content -->
+          <main class="col-md-6 col-12 px-md-4 px-3">
+            {{ block "main" . }}{{ end }}
+          </main>
+
+          <!-- Right Sidebar - Table of Contents -->
+          <aside class="col-md-3 d-none d-md-block sidebar-right">
+            <div class="sidebar-sticky">
+              <h5 class="sidebar-heading">On This Page</h5>
+              {{ .TableOfContents }}
+            </div>
+          </aside>
+        </div>
+      </div>
+      {{ end }}
+
+      <!-- Page metadata -->
+      <div class="page-metadata mt-4 py-3 border-top">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <small class="text-muted">
+                <i class="fas fa-clock"></i>
+                Last edited: {{ if .GitInfo }}{{ .GitInfo.AuthorDate.Format "January 2, 2006" }}{{ else }}{{ .Lastmod.Format "January 2, 2006" }}{{ end }}
+              </small>
+            </div>
+            <div class="col-md-6 text-md-right">
+              <small>
+                <a href="https://github.com/godot-lisp/godot-lisp.github.io/edit/main/website/content{{ .File.Path }}" class="text-decoration-none" target="_blank" rel="noopener">
+                  <i class="fas fa-edit"></i>
+                  Make changes
+                </a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ partial "footer.html" . }}
+
+    {{ partial "scripts.html" . }}
+  </body>
+</html>

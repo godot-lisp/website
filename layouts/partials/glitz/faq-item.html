@@ -1,0 +1,58 @@
+{{/* FAQ Item glitz partial - accepts dict keys:
+   - question: string
+   - answer: HTML string (already markdownified)
+   - id: optional unique id for collapse */}}
+
+{{ $id := .id | default (printf "faq-%d" (now.Unix)) }}
+{{ $question := .question | default "Question?" }}
+{{ $answer := .answer | default "" }}
+
+<style>
+.faq-item {
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.faq-question {
+  background: #f8f9fa;
+  padding: 1rem;
+  margin: 0;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #3B9C3F;
+}
+.faq-question:hover {
+  background: #e9ecef;
+}
+.faq-question:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 156, 63, 0.25);
+}
+.faq-answer {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+}
+.faq-toggle-icon {
+  float: right;
+  transition: transform 0.3s ease;
+}
+.faq-item[aria-expanded="true"] .faq-toggle-icon {
+  transform: rotate(180deg);
+}
+</style>
+
+<div class="faq-item">
+  <button class="faq-question" type="button" data-toggle="collapse" data-target="#{{ $id }}" aria-expanded="false" aria-controls="{{ $id }}">
+    {{ $question }}
+    <span class="faq-toggle-icon">▼</span>
+  </button>
+  <div id="{{ $id }}" class="collapse faq-answer">
+    {{ $answer | safeHTML }}
+  </div>
+</div>

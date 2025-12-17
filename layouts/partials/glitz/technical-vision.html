@@ -1,0 +1,46 @@
+{{/* Technical Vision glitz partial - accepts dict keys:
+   - title: string (optional)
+   - features: slice of maps, each with "icon", "title", "quote" (optional)
+   If `features` is provided, renders them; else uses default layout. */}}
+
+{{ $title := .title | default "" }}
+{{ if $title }}<h2>{{ $title }}</h2>{{ end }}
+<div class="technical-vision">
+  {{ if .features }}
+    <div class="row">
+      {{ range .features }}
+      <div class="col-md-4 text-center">
+        <div class="feature-icon">
+          <strong>{{ .icon }}</strong>
+        </div>
+        <h4 class="feature-title">{{ .title }}</h4>
+        <p><code>{{ .quote }}</code></p>
+      </div>
+      {{ end }}
+    </div>
+  {{ else }}
+    <div class="row">
+      <div class="col-md-4 text-center">
+        <div class="feature-icon">
+          <strong>λ</strong>
+        </div>
+        <h4 class="feature-title">Homoiconic</h4>
+        <p><code>Code Is Data; Data Is Code.<br>To reduce the friction between game-logic and game-data.</code></p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="feature-icon">
+          <strong>#</strong>
+        </div>
+        <h4 class="feature-title">Idiomatic Lisp</h4>
+        <p><code>[PLACEHOLDER: Leveraging Lisp's unique features within Godot - macros, S-expressions, etc.]</code></p>
+      </div>
+      <div class="col-md-4 text-center">
+        <div class="feature-icon">
+          <strong>∞</strong>
+        </div>
+        <h4 class="feature-title">Extensible Core</h4>
+        <p><code>[PLACEHOLDER: How the framework can be extended and customized]</code></p>
+      </div>
+    </div>
+  {{ end }}
+</div>

@@ -1,0 +1,34 @@
+baseURL = '/'
+languageCode = 'en-us'
+title = 'GOLI = GODOT + LISP'
+publishDir = '../godot-lisp.github.io'
+
+[params]
+  description = "GOLI: Godot-Lisp - A Lisp extension for the Godot game engine"
+  author = "Joshua Steven Grant (ie: Jost Grant)"
+  keywords = "godot, lisp, game engine, extension, programming, gamedev"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# Enable GitInfo to automatically track file modification dates
+[params.gitInfo]
+  enable = true
+
+[menu]
+
+[taxonomies]
+  tag = "tags"
+
+[outputs]
+  home = ["HTML", "JSON"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+
+[outputFormats]
+  [outputFormats.RSS]
+    mediatype = "application/rss"
+    baseName = "all.rss"
+    path = "feeds"

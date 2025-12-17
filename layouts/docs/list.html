@@ -1,0 +1,38 @@
+{{- define "title" }}{{ .Title }} | {{ .Site.Title }}{{- end }}
+{{- define "main" }}
+<div class="docs-overview">
+  <div class="container">
+    <div class="docs-header">
+      {{ .Content }}
+    </div>
+
+    <div class="docs-grid">
+      {{ range .Site.RegularPages }}
+        {{ if eq .Type "docs" }}
+          {{ if not (eq .Layout "single") }}
+            <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }}">
+              <div class="docs-card">
+                <div class="docs-card-icon">
+                  <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+                </div>
+                <div class="docs-card-content">
+                  <h3 class="docs-card-title">
+                    {{ .Title }}
+                  </h3>
+                  <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
+                  <div class="docs-card-meta">
+                    <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
+                  </div>
+                </div>
+                <div class="docs-card-arrow">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+            </a>
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    </div>
+  </div>
+</div>
+{{- end }}

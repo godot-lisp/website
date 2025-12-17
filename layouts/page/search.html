@@ -1,0 +1,307 @@
+{{ define "main" }}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>{{ .Title }}</h1>
+
+      <!-- Search input at top of results page -->
+      <div class="search-page-input mb-4">
+        <div class="input-group input-group-lg">
+          <input type="text" id="search-input" class="form-control" placeholder="Search documentation..." value="{{ .Params.q }}" aria-label="Search documentation">
+          <div class="input-group-append">
+            <button class="btn btn-success" type="button" id="search-button">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="search-results">
+        <div id="loading-indicator" class="text-center py-4" style="display: none;">
+          <div class="spinner-border text-success" role="status">
+            <span class="sr-only">Searching...</span>
+          </div>
+          <p class="mt-2">Searching documentation...</p>
+        </div>
+
+        <div id="no-query-message" class="alert alert-info">
+          <i class="fas fa-info-circle"></i> Enter a search term above to find content in the documentation.
+        </div>
+
+        <div id="results-container" style="display: none;">
+          <div id="search-stats" class="mb-3"></div>
+          <div id="results-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Search functionality for search results page
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  const searchButton = document.getElementById('search-button');
+  const resultsContainer = document.getElementById('results-container');
+  const resultsList = document.getElementById('results-list');
+  const searchStats = document.getElementById('search-stats');
+  const loadingIndicator = document.getElementById('loading-indicator');
+  const noQueryMessage = document.getElementById('no-query-message');
+
+  // Get search query from URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialQuery = urlParams.get('q') || '';
+
+  if (initialQuery) {
+    searchInput.value = initialQuery;
+    performSearch(initialQuery);
+  }
+
+  // Search button click handler
+  searchButton.addEventListener('click', function() {
+    const query = searchInput.value.trim();
+    if (query) {
+      // Update URL
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('q', query);
+      window.history.pushState({}, '', newUrl);
+
+      performSearch(query);
+    }
+  });
+
+  // Enter key handler
+  searchInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      searchButton.click();
+    }
+  });
+
+  // Perform search function
+  function performSearch(query) {
+    loadingIndicator.style.display = 'block';
+    noQueryMessage.style.display = 'none';
+    resultsContainer.style.display = 'none';
+
+    // Define all documentation pages to search
+    const docsPages = [
+      { title: 'Installation', url: '/docs/installation/', category: 'getting-started' },
+      { title: 'Getting Started', url: '/docs/getting-started/', category: 'getting-started' },
+      { title: 'API Reference', url: '/docs/api-reference/', category: 'reference' },
+      { title: 'Examples', url: '/docs/examples/', category: 'learning' },
+      { title: 'Tutorials', url: '/docs/tutorials/', category: 'learning' },
+      { title: 'Configuration', url: '/docs/configuration/', category: 'reference' },
+      { title: 'Troubleshooting', url: '/docs/troubleshooting/', category: 'support' },
+      { title: 'FAQ', url: '/docs/faq/', category: 'support' }
+    ];
+
+    // Search each page
+    const searchPromises = docsPages.map(page => searchPageContent(page, query));
+
+    Promise.all(searchPromises).then(results => {
+      const allResults = results.flat();
+      displayResults(query, allResults);
+    }).catch(error => {
+      console.error('Search error:', error);
+      loadingIndicator.style.display = 'none';
+      resultsContainer.style.display = 'block';
+      searchStats.innerHTML = '<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Error performing search. Please try again.</div>';
+    });
+  }
+
+  // Search individual page content
+  function searchPageContent(page, query) {
+    return fetch(page.url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Remove script and style elements
+        doc.querySelectorAll('script, style').forEach(el => el.remove());
+
+        // Get main content (try different selectors)
+        const contentSelectors = ['main', '.main-content', '#content', 'article', '.container'];
+        let contentElement = null;
+        for (const selector of contentSelectors) {
+          contentElement = doc.querySelector(selector);
+          if (contentElement) break;
+        }
+
+        if (!contentElement) {
+          contentElement = doc.body;
+        }
+
+        const textContent = contentElement.textContent || '';
+        const results = [];
+
+        // Search in title
+        if (page.title.toLowerCase().includes(query.toLowerCase())) {
+          results.push({
+            page: page,
+            type: 'title',
+            match: page.title,
+            context: `Page title: ${page.title}`,
+            position: 0
+          });
+        }
+
+        // Search in content
+        const sentences = textContent.split(/[.!?]+/).filter(s => s.trim().length > 10);
+        sentences.forEach((sentence, index) => {
+          if (sentence.toLowerCase().includes(query.toLowerCase())) {
+            // Get surrounding context
+            const start = Math.max(0, sentence.toLowerCase().indexOf(query.toLowerCase()) - 50);
+            const end = Math.min(sentence.length, sentence.toLowerCase().indexOf(query.toLowerCase()) + query.length + 50);
+            const context = sentence.substring(start, end);
+
+            results.push({
+              page: page,
+              type: 'content',
+              match: sentence.trim(),
+              context: context.trim(),
+              position: index
+            });
+          }
+        });
+
+        return results;
+      })
+      .catch(error => {
+        console.warn(`Failed to search ${page.url}:`, error);
+        return [];
+      });
+  }
+
+  // Helper functions for categories
+  function getCategoryColor(category) {
+    const colors = {
+      'getting-started': 'success',
+      'learning': 'info',
+      'reference': 'primary',
+      'support': 'warning',
+      'overview': 'secondary'
+    };
+    return colors[category] || 'secondary';
+  }
+
+  function formatCategory(category) {
+    return category.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  }
+
+  // Display results function
+  function displayResults(query, results) {
+    loadingIndicator.style.display = 'none';
+
+    if (results.length === 0) {
+      resultsContainer.style.display = 'block';
+      searchStats.innerHTML = `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> No results found for "${query}"</div>`;
+      resultsList.innerHTML = '';
+      return;
+    }
+
+    // Group results by page
+    const resultsByPage = {};
+    results.forEach(result => {
+      const pageUrl = result.page.url;
+      if (!resultsByPage[pageUrl]) {
+        resultsByPage[pageUrl] = {
+          page: result.page,
+          matches: []
+        };
+      }
+      resultsByPage[pageUrl].matches.push(result);
+    });
+
+    // Display stats
+    const totalMatches = results.length;
+    const totalPages = Object.keys(resultsByPage).length;
+    searchStats.innerHTML = `<div class="alert alert-success"><i class="fas fa-check-circle"></i> Found ${totalMatches} match${totalMatches !== 1 ? 'es' : ''} in ${totalPages} page${totalPages !== 1 ? 's' : ''} for "${query}"</div>`;
+
+    // Display results
+    let html = '';
+    Object.values(resultsByPage).forEach(pageResult => {
+      const page = pageResult.page;
+      const matches = pageResult.matches;
+
+      html += `
+        <div class="card mb-3">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <a href="${page.url}" class="text-decoration-none">${page.title}</a>
+              <small class="text-muted">(${matches.length} match${matches.length !== 1 ? 'es' : ''})</small>
+            </h5>
+            <div class="mt-1">
+              <span class="badge badge-${getCategoryColor(page.category)}">${formatCategory(page.category)}</span>
+              <small class="text-muted ml-2">${page.url}</small>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="matches-list">
+      `;
+
+      matches.forEach((match, index) => {
+        const highlightQuery = (text, query) => {
+          const regex = new RegExp(`(${query})`, 'gi');
+          return text.replace(regex, '<mark>$1</mark>');
+        };
+
+        html += `
+          <div class="match-item mb-2">
+            <div class="match-context">${highlightQuery(match.context, query)}</div>
+            <a href="${page.url}" class="btn btn-sm btn-outline-success mt-1">
+              <i class="fas fa-external-link-alt"></i> View in context
+            </a>
+          </div>
+        `;
+      });
+
+      html += `
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    resultsList.innerHTML = html;
+    resultsContainer.style.display = 'block';
+  }
+
+  // Function to scroll to match
+  window.scrollToMatch = function(pageUrl, query, matchText) {
+    // Navigate directly to the page without scrolling
+    window.location.href = pageUrl;
+  };
+
+});
+</script>
+
+<style>
+.search-page-input {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.match-item {
+  border-left: 3px solid var(--theme-primary);
+  padding-left: 10px;
+  background-color: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.match-context {
+  margin-bottom: 5px;
+}
+
+.match-context mark {
+  background-color: #fff3cd;
+  padding: 2px 4px;
+  border-radius: 2px;
+}
+
+.matches-list .match-item:not(:last-child) {
+  margin-bottom: 15px;
+}
+</style>
+{{ end }}
