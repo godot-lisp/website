@@ -19,6 +19,9 @@ body {
   padding: 2.5rem;
   margin: 2rem 0;
 }
+.release-wrapper {
+  padding: 2rem;
+}
 .release-header {
   display: flex;
   align-items: center;
@@ -300,6 +303,41 @@ body {
   color: #2d5a2f;
   font-size: 1rem;
   line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .release-wrapper {
+    padding: 0 !important;
+  }
+  .release-notes {
+    padding: 0 0.25rem !important;
+    margin: 1rem 0 0 0 !important;
+    border-radius: 0 !important;
+  }
+  .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .col-md-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .stat-card {
+    flex: 0 0 calc((100% - 2rem) / 3);
+    order: initial;
+  }
+  .stat-card:nth-child(4) {
+    order: 6;
+  }
+  .stat-card:nth-child(5) {
+    order: 5;
+  }
+  .stat-card:nth-child(6) {
+    order: 4;
+  }
 }
 </style>
 

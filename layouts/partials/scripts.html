@@ -8,6 +8,7 @@
     var span = document.querySelector('.fill-parens');
     var title = document.querySelector('.no-border .title');
     if (!span || !title) return;
+    if (window.innerWidth < 768) { span.textContent = ''; return; }
 
     // Find the content area to constrain the parens so they don't overflow the content column
     var container = document.getElementById('content') || document.querySelector('.container') || document.body;
@@ -111,6 +112,26 @@
 
     // Initialize sidebar states based on screen size
     function initializeSidebarStates() {
+      // Set body padding for fixed navbar
+      const nav = document.querySelector('.navbar');
+      if (nav) {
+        const navHeight = nav.offsetHeight;
+        document.body.style.setProperty('padding-top', navHeight + 'px', 'important');
+      }
+      
+      // Position the toggle bar below the navbar if it exists
+      const toggleBar = document.querySelector('.sidebar-toggle-bar');
+      if (nav && toggleBar) {
+        const navHeight = nav.offsetHeight;
+        toggleBar.style.setProperty('top', navHeight + 'px', 'important');
+        
+        // Set main-content padding-top to account for fixed nav (toggle-bar has no background)
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+          mainContent.style.setProperty('padding-top', '33px', 'important');
+        }
+      }
+      
       if (isMobile()) {
         // On mobile, hide sidebars by default
         if (leftSidebar) leftSidebar.classList.add('sidebar-mobile-hidden');
@@ -177,6 +198,17 @@
         leftSidebar.classList.remove('sidebar-mobile-hidden');
       } else if (!showLeft && rightSidebar) {
         rightSidebar.classList.remove('sidebar-mobile-hidden');
+      }
+      
+      // Position the sidebar just below the toggle bar
+      const toggleBar = document.querySelector('.sidebar-toggle-bar');
+      if (toggleBar) {
+        const top = (toggleBar.offsetTop + toggleBar.offsetHeight) + 'px';
+        if (showLeft && leftSidebar) {
+          leftSidebar.style.setProperty('top', top, 'important');
+        } else if (!showLeft && rightSidebar) {
+          rightSidebar.style.setProperty('top', top, 'important');
+        }
       }
       
       updateMainContentColumns();

@@ -13,6 +13,27 @@
       {{ else }}
       <!-- Individual docs pages - with left and right sidebars -->
       {{ partial "sidebar-toggle.html" . }}
+      <style>
+      .sidebar-toggle-bar {
+        position: fixed;
+        width: 100%;
+        z-index: 1020;
+      }
+      .main-content {
+        padding-top: 33px !important;
+      }
+      @media (max-width: 767px) {
+        body {
+          padding-top: 0 !important;
+        }
+        .main-content {
+          /* padding-top set by JS */
+        }
+        .sidebar-left, .sidebar-right {
+          /* top will be set by JS */
+        }
+      }
+      </style>
       <div class="container-fluid">
         <div class="row">
           <!-- Left Sidebar - Navigation -->
