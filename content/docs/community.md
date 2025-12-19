@@ -3,11 +3,11 @@ title: "Community"
 description: "Join the GOLI community and connect with other developers"
 date: 2025-12-16
 draft: false
-weight: 7
+weight: 12
 icon: "fas fa-users"
 menu:
   docs:
-    weight: 10
+    weight: 12
 ---
 
 # Community

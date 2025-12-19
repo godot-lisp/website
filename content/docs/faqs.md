@@ -4,14 +4,14 @@ description: "Frequently asked questions about GOLI"
 date: 2025-12-16
 draft: false
 type: docs
-weight: 8
+weight: 7
 category: "support"
 icon: "fas fa-question-circle"
 menu:
   docs:
     identifier: "faqs"
     parent: "what-it-is"
-    weight: 6
+    weight: 7
 ---
 
 # FAQ(s)
