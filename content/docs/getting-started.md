@@ -10,7 +10,6 @@ icon: "fas fa-rocket"
 menu:
   docs:
     identifier: "getting-started"
-    weight: 2
 ---
 
 # Getting Started

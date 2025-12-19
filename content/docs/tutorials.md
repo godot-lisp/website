@@ -10,7 +10,6 @@ icon: "fas fa-graduation-cap"
 menu:
   docs:
     parent: "getting-started"
-    weight: 4
 ---
 
 # Tutorials

@@ -3,13 +3,12 @@ title: "Goals And Non-Goals"
 description: "Understand what GOLI aims to achieve and what it explicitly does not"
 date: 2025-12-17
 draft: false
-weight: 6
+weight: 8
 icon: "fas fa-bullseye"
 menu:
   docs:
     identifier: "goals-x-non"
     parent: "what-it-is"
-    weight: 6
 ---
 
 # Goals And Non-Goals

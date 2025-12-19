@@ -10,7 +10,6 @@ icon: "fas fa-lightbulb"
 menu:
   docs:
     parent: "getting-started"
-    weight: 5
 ---
 
 # Examples

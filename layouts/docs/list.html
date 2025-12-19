@@ -6,29 +6,70 @@
       {{ .Content }}
     </div>
 
+    <div class="docs-controls">
+      <button id="expand-all">Expand Everything</button>
+    </div>
+
     <div class="docs-grid">
       {{ range .Site.RegularPages }}
         {{ if eq .Type "docs" }}
-          {{ if not (eq .Layout "single") }}
-            <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }}">
-              <div class="docs-card">
-                <div class="docs-card-icon">
-                  <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
-                </div>
-                <div class="docs-card-content">
-                  <h3 class="docs-card-title">
-                    {{ .Title }}
-                  </h3>
-                  <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
-                  <div class="docs-card-meta">
-                    <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
+          {{ $parentID := .Params.menu.docs.identifier | default .File.BaseFileName }}
+          {{ if not .Params.menu.docs.parent }}
+            <div class="docs-stack">
+              {{ $children := slice }}
+              {{ range .Site.RegularPages }}
+                {{ if and (eq .Type "docs") (eq .Params.menu.docs.parent $parentID) }}
+                  {{ $children = $children | append . }}
+                {{ end }}
+              {{ end }}
+              <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-parent">
+                <div class="docs-card">
+                  <div class="docs-card-icon">
+                    <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
                   </div>
+                  <div class="docs-card-content">
+                    <h3 class="docs-card-title">
+                      {{ .Title }}
+                    </h3>
+                    <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
+                    <div class="docs-card-meta">
+                      <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
+                    </div>
+                  </div>
+                  <div class="docs-card-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                  </div>
+                  {{ if gt (len $children) 0 }}
+                  <div class="docs-stack-indicator">
+                    <i class="fas fa-layer-group"></i>
+                  </div>
+                  {{ end }}
                 </div>
-                <div class="docs-card-arrow">
-                  <i class="fas fa-chevron-right"></i>
-                </div>
+              </a>
+              <div class="docs-children">
+                {{ range $children }}
+                  <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-child">
+                    <div class="docs-card">
+                      <div class="docs-card-icon">
+                        <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+                      </div>
+                      <div class="docs-card-content">
+                        <h3 class="docs-card-title">
+                          {{ .Title }}
+                        </h3>
+                        <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
+                        <div class="docs-card-meta">
+                          <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
+                        </div>
+                      </div>
+                      <div class="docs-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                      </div>
+                    </div>
+                  </a>
+                {{ end }}
               </div>
-            </a>
+            </div>
           {{ end }}
         {{ end }}
       {{ end }}

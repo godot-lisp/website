@@ -3,12 +3,12 @@ title: "Contributing"
 description: "How to contribute to GOLI"
 date: 2025-12-17
 draft: false
-weight: 11
+weight: 14
 icon: "fas fa-handshake"
 menu:
   docs:
     identifier: "contributing"
-    weight: 11
+    weight: 14
 ---
 
 # Contributing

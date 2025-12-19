@@ -649,6 +649,26 @@ pre code {
   margin: 0 auto;
 }
 
+.docs-controls {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#expand-all {
+  background: var(--theme-primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+#expand-all:hover {
+  background: var(--theme-secondary);
+}
+
 .docs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -735,16 +755,96 @@ pre code {
 
 .docs-card-arrow {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
+  top: 1rem;
+  right: 1rem;
   color: var(--theme-primary);
   opacity: 0.6;
   transition: all 0.3s ease;
+  font-weight: 900;
+  font-size: 1.2rem;
 }
 
 .docs-card-link:hover .docs-card-arrow {
   opacity: 1;
   transform: translateX(4px);
+}
+
+.docs-stack-indicator {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: transparent;
+  color: var(--theme-primary);
+  border: 2px solid var(--theme-primary);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.docs-stack.expanded .docs-stack-indicator {
+  background: var(--theme-primary);
+  color: white;
+  border-color: var(--theme-primary);
+}
+
+.docs-stack.expanded .docs-children {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Docs stack styles */
+.docs-stack {
+  position: relative;
+}
+
+.docs-parent {
+  position: relative;
+  z-index: 10;
+}
+
+.docs-children {
+  display: none;
+  margin-top: 1rem;
+}
+
+.docs-stack:hover .docs-children {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+
+.docs-child {
+  /* position: static; default */
+}
+
+.docs-stack:hover .docs-child:nth-child(1) {
+  /* remove */
+}
+
+.docs-stack:hover .docs-child:nth-child(2) {
+  /* remove */
+}
+
+.docs-stack:hover .docs-child:nth-child(3) {
+  /* remove */
+}
+
+.docs-stack:hover .docs-child:nth-child(4) {
+  /* remove */
+}
+
+.docs-children .docs-card-link {
+  margin-bottom: 0;
 }
 
 /* Mobile responsiveness */

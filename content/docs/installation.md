@@ -10,7 +10,6 @@ icon: "fas fa-download"
 menu:
   docs:
     parent: "getting-started"
-    weight: 3
 ---
 
 # Installation Guide
