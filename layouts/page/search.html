@@ -52,7 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
   const initialQuery = urlParams.get('q') || '';
 
+  console.log('Search page loaded, URL:', window.location.search);
+  console.log('Initial query:', initialQuery);
+
   if (initialQuery) {
+    console.log('Calling performSearch with:', initialQuery);
     searchInput.value = initialQuery;
     performSearch(initialQuery);
   }
@@ -79,20 +83,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Perform search function
   function performSearch(query) {
+    console.log('performSearch called with query:', query);
     loadingIndicator.style.display = 'block';
     noQueryMessage.style.display = 'none';
     resultsContainer.style.display = 'none';
 
     // Define all documentation pages to search
     const docsPages = [
-      { title: 'Installation', url: '/docs/installation/', category: 'getting-started' },
-      { title: 'Getting Started', url: '/docs/getting-started/', category: 'getting-started' },
+      { title: 'What It Is', url: '/docs/what-it-is/', category: 'overview' },
+      { title: 'Community', url: '/docs/community/', category: 'community' },
+      { title: 'Contributing', url: '/docs/contributing/', category: 'community' },
       { title: 'API Reference', url: '/docs/api-reference/', category: 'reference' },
-      { title: 'Examples', url: '/docs/examples/', category: 'learning' },
-      { title: 'Tutorials', url: '/docs/tutorials/', category: 'learning' },
+      { title: 'Language Reference', url: '/docs/language-reference/', category: 'reference' },
       { title: 'Configuration', url: '/docs/configuration/', category: 'reference' },
-      { title: 'Troubleshooting', url: '/docs/troubleshooting/', category: 'support' },
-      { title: 'FAQ', url: '/docs/faq/', category: 'support' }
+      { title: 'Troubleshooting', url: '/docs/troubleshooting/', category: 'support' }
     ];
 
     // Search each page
@@ -100,6 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     Promise.all(searchPromises).then(results => {
       const allResults = results.flat();
+      console.log('Search completed, found', allResults.length, 'results');
+      console.log('Results:', allResults);
       displayResults(query, allResults);
     }).catch(error => {
       console.error('Search error:', error);
