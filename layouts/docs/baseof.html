@@ -55,34 +55,8 @@
                     <i class="fas fa-home"></i> Overview
                   </a>
                 </li>
-                {{ range .Site.Menus.docs }}
-                <li class="nav-item">
-                  <a class="nav-link{{ if eq $.Page.RelPermalink .URL }} active{{ end }}" href="{{ .URL }}">
-                    <i class="{{ if .Page }}{{ .Page.Params.icon | default "fas fa-file" }}{{ else }}fas fa-file{{ end }}"></i> {{ .Title }}
-                  </a>
-                  {{ if .HasChildren }}
-                  <ul class="nav flex-column sub-nav">
-                    {{ range .Children }}
-                    <li class="nav-item">
-                      <a class="nav-link{{ if eq $.Page.RelPermalink .URL }} active{{ end }}" href="{{ .URL }}">
-                        <i class="{{ if .Page }}{{ .Page.Params.icon | default "fas fa-file" }}{{ else }}fas fa-file{{ end }}"></i> {{ .Title }}
-                      </a>
-                      {{ if .HasChildren }}
-                      <ul class="nav flex-column sub-sub-nav">
-                        {{ range .Children }}
-                        <li class="nav-item">
-                          <a class="nav-link{{ if eq $.Page.RelPermalink .URL }} active{{ end }}" href="{{ .URL }}">
-                            <i class="{{ if .Page }}{{ .Page.Params.icon | default "fas fa-file" }}{{ else }}fas fa-file{{ end }}"></i> {{ .Title }}
-                          </a>
-                        </li>
-                        {{ end }}
-                      </ul>
-                      {{ end }}
-                    </li>
-                    {{ end }}
-                  </ul>
-                  {{ end }}
-                </li>
+                {{ range (.Site.GetPage "/docs").Pages.ByWeight }}
+                {{ partial "menu-item.html" (dict "page" . "level" 0) }}
                 {{ end }}
               </ul>
             </div>

@@ -1,0 +1,16 @@
+{{ $page := .page | default . }}
+{{ $level := .level | default 0 }}
+{{ $class := cond (eq $level 0) "sub-nav" (cond (eq $level 1) "sub-nav" "sub-sub-nav") }}
+{{ $showChildren := lt $level 2 }}
+<li class="nav-item">
+  <a class="nav-link{{ if eq $.Page.RelPermalink $page.RelPermalink }} active{{ end }}" href="{{ $page.RelPermalink }}">
+    <i class="{{ if $page.Params.icon }}{{ $page.Params.icon }}{{ else }}fas fa-file{{ end }}"></i> {{ $page.Title }}
+  </a>
+  {{ if and $showChildren $page.Pages }}
+  <ul class="nav flex-column {{ $class }}">
+    {{ range $page.Pages.ByWeight }}
+    {{ partial "menu-item.html" (dict "page" . "level" (add $level 1)) }}
+    {{ end }}
+  </ul>
+  {{ end }}
+</li>

@@ -2,120 +2,119 @@
 {{- define "main" }}
 <div class="docs-overview">
   <div class="container">
+    {{ if eq .RelPermalink "/docs/" }}
     <div class="docs-header">
       {{ .Content }}
+    </div>
+
+    <div class="sidebar-search mb-3">
+      <div class="input-group input-group-lg">
+        <input type="text" id="docs-search" class="form-control" placeholder="Search docs..." aria-label="Search documentation">
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+        </div>
+      </div>
     </div>
 
     <div class="docs-controls">
       <button id="expand-all">Expand Everything</button>
     </div>
-
     <div class="docs-grid">
-      {{ range .Site.RegularPages }}
-        {{ if eq .Type "docs" }}
-          {{ $parentID := .Params.menu.docs.identifier | default .File.BaseFileName }}
-          {{ if not .Params.menu.docs.parent }}
-            <div class="docs-stack">
-              {{ $children := slice }}
-              {{ range .Site.RegularPages }}
-                {{ if and (eq .Type "docs") (eq .Params.menu.docs.parent $parentID) }}
-                  {{ $children = $children | append . }}
-                {{ end }}
-              {{ end }}
-              <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-parent">
-                <div class="docs-card">
-                  <div class="docs-card-icon">
-                    <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
-                  </div>
-                  <div class="docs-card-content">
-                    <h3 class="docs-card-title">
-                      {{ .Title }}
-                    </h3>
-                    <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
-                    <div class="docs-card-meta">
-                      <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
-                    </div>
-                  </div>
-                  <div class="docs-card-arrow">
-                    <i class="fas fa-chevron-right"></i>
-                  </div>
-                  {{ if gt (len $children) 0 }}
-                  <div class="docs-stack-indicator">
-                    <i class="fas fa-layer-group"></i>
-                  </div>
-                  {{ end }}
+      {{ range .Pages.ByWeight }}
+        <div class="docs-stack">
+          <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-parent">
+            <div class="docs-card">
+              <div class="docs-card-icon">
+                <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+              </div>
+              <div class="docs-card-content">
+                <h3 class="docs-card-title">
+                  {{ .Title }}
+                </h3>
+                <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
+                <div class="docs-card-meta">
+                  <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
                 </div>
-              </a>
-              <div class="docs-children">
-                {{ range $children }}
-                  {{ $childID := .Params.menu.docs.identifier | default .File.BaseFileName }}
-                  {{ $grandchildren := slice }}
-                  {{ range $.Site.RegularPages }}
-                    {{ if and (eq .Type "docs") (eq .Params.menu.docs.parent $childID) }}
-                      {{ $grandchildren = $grandchildren | append . }}
-                    {{ end }}
-                  {{ end }}
-                  {{ if gt (len $grandchildren) 0 }}
-                    <div class="docs-child-with-grandchildren">
-                      <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-child">
-                        <div class="docs-card">
-                          <div class="docs-card-icon">
-                            <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
-                          </div>
-                          <div class="docs-card-content">
-                            <h3 class="docs-card-title">
-                              {{ .Title }}
-                            </h3>
-                            <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
-                            <div class="docs-card-meta">
-                              <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
-                            </div>
-                          </div>
-                          <div class="docs-card-arrow">
-                            <i class="fas fa-chevron-right"></i>
-                          </div>
+              </div>
+              <div class="docs-card-arrow">
+                <i class="fas fa-chevron-right"></i>
+              </div>
+              {{ if .Pages }}
+              <div class="docs-stack-indicator">
+                <i class="fas fa-layer-group"></i>
+              </div>
+              {{ end }}
+            </div>
+          </a>
+          {{ if .Pages }}
+          <div class="docs-children">
+            {{ range .Pages.ByWeight }}
+              {{ if .Pages }}
+                <div class="docs-child-with-grandchildren">
+                  <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-child">
+                    <div class="docs-card">
+                      <div class="docs-card-icon">
+                        <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+                      </div>
+                      <div class="docs-card-content">
+                        <h3 class="docs-card-title">
+                          {{ .Title }}
+                        </h3>
+                        <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
+                        <div class="docs-card-meta">
+                          <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
                         </div>
-                      </a>
-                      <div class="docs-grandchildren">
-                        {{ range $grandchildren }}
-                          <div class="docs-grandchild-square" data-synopsis="{{ .Params.description | default .Summary }}">
-                            <div class="docs-grandchild-icon">
-                              <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
-                            </div>
-                            <div class="docs-grandchild-title">{{ .Title }}</div>
-                            <a href="{{ .Permalink }}" class="docs-grandchild-link"></a>
-                          </div>
-                        {{ end }}
+                      </div>
+                      <div class="docs-card-arrow">
+                        <i class="fas fa-chevron-right"></i>
                       </div>
                     </div>
-                  {{ else }}
-                    <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-child">
-                      <div class="docs-card">
-                        <div class="docs-card-icon">
+                  </a>
+                  <div class="docs-grandchildren">
+                    {{ range .Pages.ByWeight }}
+                      <div class="docs-grandchild-square" data-synopsis="{{ .Params.description | default .Summary }}">
+                        <div class="docs-grandchild-icon">
                           <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
                         </div>
-                        <div class="docs-card-content">
-                          <h3 class="docs-card-title">
-                            {{ .Title }}
-                          </h3>
-                          <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
-                          <div class="docs-card-meta">
-                            <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
-                          </div>
-                        </div>
-                        <div class="docs-card-arrow">
-                          <i class="fas fa-chevron-right"></i>
-                        </div>
+                        <div class="docs-grandchild-title">{{ .Title }}</div>
+                        <a href="{{ .Permalink }}" class="docs-grandchild-link"></a>
                       </div>
-                    </a>
-                  {{ end }}
-                {{ end }}
-              </div>
-            </div>
+                    {{ end }}
+                  </div>
+                </div>
+              {{ else }}
+                <a href="{{ .Permalink }}" class="docs-card-link docs-card-{{ .Params.category | default "general" }} docs-child">
+                  <div class="docs-card">
+                    <div class="docs-card-icon">
+                      <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+                    </div>
+                    <div class="docs-card-content">
+                      <h3 class="docs-card-title">
+                        {{ .Title }}
+                      </h3>
+                      <p class="docs-card-description">{{ .Params.description | default .Summary }}</p>
+                      <div class="docs-card-meta">
+                        <span class="docs-category">{{ .Params.category | default "general" | title }}</span>
+                      </div>
+                    </div>
+                    <div class="docs-card-arrow">
+                      <i class="fas fa-chevron-right"></i>
+                    </div>
+                  </div>
+                </a>
+              {{ end }}
+            {{ end }}
+          </div>
           {{ end }}
-        {{ end }}
+        </div>
       {{ end }}
     </div>
+    {{ else }}
+    <div class="docs-content">
+      <h1 class="visually-hidden">{{ .Title }}</h1>
+      {{ .Content }}
+    </div>
+    {{ end }}
   </div>
 </div>
 {{- end }}

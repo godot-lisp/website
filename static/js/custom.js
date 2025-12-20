@@ -29,4 +29,36 @@ document.addEventListener('DOMContentLoaded', function() {
     allExpanded = !allExpanded;
     expandAllButton.textContent = allExpanded ? 'Collapse Everything' : 'Expand Everything';
   });
+
+  // Search functionality
+  const searchInput = document.getElementById('docs-search');
+  const searchButton = searchInput ? searchInput.nextElementSibling.querySelector('.input-group-text') : null;
+  const searchIcon = searchButton ? searchButton.querySelector('i') : null;
+
+  function performSearch() {
+    const query = searchInput.value.trim();
+    if (query) {
+      window.location.href = '/search/?q=' + encodeURIComponent(query);
+    }
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  }
+
+  if (searchButton) {
+    searchButton.addEventListener('click', function() {
+      performSearch();
+    });
+  }
+
+  if (searchIcon) {
+    searchIcon.addEventListener('click', function() {
+      performSearch();
+    });
+  }
 });

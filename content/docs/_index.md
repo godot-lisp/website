@@ -6,6 +6,8 @@ draft: false
 type: docs
 ---
 
+---
+
 # GOLI Docs
 
 Welcome to the comprehensive documentation for GOLI (Godot + Lisp), a powerful Lisp extension for the Godot game engine. Whether you're just getting started or looking for advanced features, you'll find everything you need here.
