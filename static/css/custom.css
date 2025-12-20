@@ -847,6 +847,107 @@ pre code {
   margin-bottom: 0;
 }
 
+.docs-children .docs-card {
+  min-height: 350px;
+  height: 350px;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Third level nesting styles */
+.docs-child-with-grandchildren {
+  position: relative;
+}
+
+.docs-grandchildren {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.docs-grandchild-square {
+  width: 80px;
+  height: 80px;
+  background: var(--theme-bg-white);
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.docs-grandchild-square:hover {
+  border-color: var(--theme-primary);
+  box-shadow: 0 4px 12px rgba(0, 100, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.docs-grandchild-icon {
+  font-size: 1.5rem;
+  color: var(--theme-primary);
+  margin-bottom: 0.25rem;
+}
+
+.docs-grandchild-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--theme-primary);
+  line-height: 1.1;
+}
+
+.docs-grandchild-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  z-index: 1;
+}
+
+/* Hover popup for synopsis */
+.docs-grandchild-square:hover::after {
+  content: attr(data-synopsis);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--theme-bg-white);
+  border: 2px solid var(--theme-primary);
+  border-radius: 8px;
+  padding: 0.75rem;
+  width: 200px;
+  font-size: 0.85rem;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  margin-bottom: 0.5rem;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.docs-grandchild-square:hover::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--theme-primary);
+  z-index: 11;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .docs-grid {
@@ -1016,6 +1117,19 @@ pre code {
 .sub-nav .nav-link {
   padding: 0.25rem 0.5rem;
   font-size: 0.9rem;
+}
+
+.sub-sub-nav {
+  margin-left: 1rem;
+  border-left: 2px solid #adb5bd;
+  padding-left: 0.5rem;
+  background-color: #f1f3f4;
+}
+
+.sub-sub-nav .nav-link {
+  padding: 0.2rem 0.5rem;
+  font-size: 1rem;
+  color: #6c757d;
 }
 
 /* Right Sidebar Table of Contents */

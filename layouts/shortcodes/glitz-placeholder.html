@@ -1,0 +1,8 @@
+{{/* Shortcode: glitz-placeholder
+   Usage:
+   {{< glitz-placeholder >}}
+   This content is a placeholder.
+   {{< /glitz-placeholder >}}
+*/}}
+{{ $inner := .Inner | default "[PLACEHOLDER CONTENT]" }}
+{{ partial "glitz/placeholder.html" (dict "Inner" $inner) }}

@@ -1,0 +1,37 @@
+{{/* Placeholder glitz partial - displays a styled placeholder message */}}
+
+{{ $content := .Inner | default "[PLACEHOLDER CONTENT]" }}
+
+<div class="glitz-placeholder">
+  <div class="placeholder-content">
+    <i class="fas fa-tools"></i>
+    <p>{{ $content }}</p>
+  </div>
+</div>
+
+<style>
+.glitz-placeholder {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 1rem 0;
+  background: #f9f9f9;
+  text-align: center;
+}
+
+.placeholder-content {
+  color: #666;
+}
+
+.placeholder-content i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  color: #999;
+}
+
+.placeholder-content p {
+  margin: 0;
+  font-style: italic;
+}
+</style>
