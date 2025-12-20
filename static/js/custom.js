@@ -64,4 +64,94 @@ document.addEventListener('DOMContentLoaded', function() {
       searchIcon.addEventListener('click', performSearch);
     }
   });
+
+  // Code example toggle functionality
+  const codeExamples = document.querySelectorAll('.glitz-code-example');
+
+  codeExamples.forEach((example, index) => {
+    const toggleButtons = example.querySelectorAll('.code-toggle-btn');
+    const highlightDiv = example.querySelector('.highlight');
+    const preElement = example.querySelector('pre.chroma') || example.querySelector('pre');
+    
+    toggleButtons.forEach((button, btnIndex) => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const toggleType = this.getAttribute('data-toggle');
+        
+        // Remove active class from all buttons of same type
+        toggleButtons.forEach(btn => {
+          if (btn.getAttribute('data-toggle') === toggleType) {
+            btn.classList.remove('active');
+          }
+        });
+        
+        // Toggle functionality based on type
+        switch(toggleType) {
+          case 'line-numbers':
+            if (highlightDiv) {
+              highlightDiv.classList.toggle('show-line-numbers');
+              // Set button active state based on whether line numbers are now shown
+              const lineNumbersShown = highlightDiv.classList.contains('show-line-numbers');
+              this.classList.toggle('active', lineNumbersShown);
+            }
+            break;
+          case 'wrap':
+            if (preElement) {
+              preElement.classList.toggle('word-wrap');
+              // Set button active state based on whether word wrap is now enabled
+              const wordWrapEnabled = preElement.classList.contains('word-wrap');
+              this.classList.toggle('active', wordWrapEnabled);
+            }
+            break;
+          case 'copy':
+            let codeText = '';
+            if (preElement) {
+              // Find the code element within the pre
+              const codeElement = preElement.querySelector('code');
+              if (codeElement) {
+                // Get the raw text content
+                const rawText = codeElement.textContent;
+                
+                // Split by newlines and clean up line numbers
+                const lines = rawText.split('\n');
+                const cleanLines = lines.map(line => {
+                  // Remove line numbers from the beginning of each line
+                  // Pattern: digits followed by the actual content
+                  return line.replace(/^\d+/, '').trim();
+                }).filter(line => line.length > 0); // Remove empty lines
+                
+                codeText = cleanLines.join('\n');
+              } else {
+                // Fallback: use pre element's text content
+                codeText = preElement.textContent;
+              }
+            }
+            navigator.clipboard.writeText(codeText).then(() => {
+              // Visual feedback
+              const originalIcon = this.querySelector('i');
+              const originalClass = originalIcon.className;
+              originalIcon.className = 'fas fa-check';
+              this.classList.add('active');
+              
+              setTimeout(() => {
+                originalIcon.className = originalClass;
+                this.classList.remove('active');
+              }, 1000);
+            });
+            break;
+          case 'explainer':
+            const example = this.closest('.glitz-code-example');
+            const explainer = example.querySelector('.code-explainer');
+            if (explainer) {
+              explainer.classList.toggle('hidden');
+              // Set button active state based on whether explainer is now visible
+              const explainerVisible = !explainer.classList.contains('hidden');
+              this.classList.toggle('active', explainerVisible);
+            }
+            break;
+        }
+      });
+    });
+  });
 });

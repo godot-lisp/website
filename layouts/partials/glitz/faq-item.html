@@ -15,7 +15,7 @@
   overflow: hidden;
 }
 .faq-question {
-  background: #f8f9fa;
+  background: #fcfcfc;
   padding: 1rem;
   margin: 0;
   cursor: pointer;
@@ -26,8 +26,14 @@
   font-weight: 500;
   color: #3B9C3F;
 }
+.faq-question::before {
+  content: "Q: ";
+  font-weight: bold;
+  color: #2E7D32;
+  margin-right: 0.5rem;
+}
 .faq-question:hover {
-  background: #e9ecef;
+  background: #f9f9f9;
 }
 .faq-question:focus {
   outline: none;
@@ -37,6 +43,12 @@
   padding: 1rem;
   background: white;
   border-top: 1px solid #e0e0e0;
+}
+.faq-answer::before {
+  content: "A: ";
+  font-weight: bold;
+  color: #2E7D32;
+  margin-right: 0.5rem;
 }
 .faq-toggle-icon {
   float: right;

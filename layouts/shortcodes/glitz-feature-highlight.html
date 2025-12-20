@@ -1,0 +1,10 @@
+{{/* Shortcode: glitz-feature-highlight
+   Usage:
+   {{< glitz-feature-highlight color="primary" >}}
+   # Feature Title
+   Feature description goes here.
+   {{< /glitz-feature-highlight >}}
+*/}}
+{{ $color := .Get "color" | default "primary" }}
+{{ $inner := .Inner | default "" }}
+{{ partial "glitz/feature-highlight.html" (dict "color" $color "content" $inner) }}

@@ -1,0 +1,263 @@
+{{/* Code example glitz partial - displays syntax-highlighted code */}}
+
+{{ $language := .language | default "text" }}
+{{ $title := .title | default "Code Example" }}
+{{ $code := .code | default "" }}
+{{ $explain := .explain | default "" }}
+
+<div class="glitz-code-example{{ if $explain }} has-explainer{{ end }}">
+  <div class="code-header">
+    <span class="code-title">{{ $title }}</span>
+    <div class="code-controls">
+      <button class="code-toggle-btn" data-toggle="copy" title="Copy code">
+        <i class="fas fa-copy"></i>
+      </button>
+      <button class="code-toggle-btn" data-toggle="wrap" title="Toggle word wrap">
+        <i class="fas fa-arrow-right-arrow-left"></i>
+      </button>
+      <button class="code-toggle-btn active" data-toggle="line-numbers" title="Toggle line numbers">
+        <i class="fas fa-list-ol"></i>
+      </button>
+      {{ if $explain }}
+      <button class="code-toggle-btn explainer-toggle active" data-toggle="explainer" title="Toggle explanation">
+        <i class="fas fa-question"></i>
+      </button>
+      {{ end }}
+      <span class="code-language">{{ $language }}</span>
+    </div>
+  </div>
+  <div class="code-container">
+    <div class="code-content">
+      <div class="highlight show-line-numbers">
+        {{ highlight $code $language "linenos=true" }}
+      </div>
+    </div>
+    {{ if $explain }}
+    <div class="code-explainer">
+      <div class="explainer-content">
+        {{ $explain | markdownify }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</div>
+
+<style>
+.glitz-code-example {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin: 1rem 0;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.code-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  gap: 0;
+}
+
+.glitz-code-example.has-explainer .code-content {
+  /* Removed bottom border */
+}
+
+.code-explainer {
+  background: #f7faf7;
+  padding: 1rem;
+  border: 2px dashed #e0e0e0;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
+.explainer-content {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.explainer-content h1,
+.explainer-content h2,
+.explainer-content h3,
+.explainer-content h4,
+.explainer-content h5,
+.explainer-content h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.explainer-content p {
+  margin-bottom: 0.75rem;
+}
+
+.explainer-content code {
+  background: #f1f3f4;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.85rem;
+}
+
+.explainer-content pre {
+  background: #f1f3f4;
+  padding: 0.5rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.explainer-content ul,
+.explainer-content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.explainer-content li {
+  margin-bottom: 0.25rem;
+}
+
+.code-header {
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.code-title {
+  font-weight: 600;
+  color: #333;
+}
+
+.code-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.code-toggle-btn {
+  background: none;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.code-toggle-btn:hover {
+  background: #f8f9fa;
+  border-color: #adb5bd;
+  color: #495057;
+}
+
+.code-toggle-btn.active {
+  background: #6b7b6d;
+  border-color: #6b7b6d;
+  color: white;
+}
+
+.code-language {
+  background: #28a745;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.code-content {
+  background: #f8f9fa;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-height: 400px;
+  overflow: auto;
+  border-top: 1px solid #e0e0e0;
+  position: relative;
+}
+
+.code-content .highlight pre {
+  margin: 0 !important;
+  padding: 1rem;
+  background: #f5f9f5;
+  overflow-x: auto;
+  border: none;
+  white-space: pre;
+  min-height: 100%;
+}
+
+.code-content .highlight code {
+  background: transparent;
+  padding: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Hide line numbers by default */
+.code-content .highlight .chroma .ln {
+  display: none;
+}
+
+.code-content .highlight .chroma .lnt {
+  display: none;
+}
+
+/* Show line numbers when toggle is active */
+.highlight.show-line-numbers .chroma .ln {
+  display: inline-block;
+  border-right: 2px solid #6b7b6d;
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.highlight.show-line-numbers .chroma .lnt {
+  display: inline-block;
+  border-right: 2px solid #6b7b6d;
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.code-content .highlight pre.word-wrap {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Explainer toggle button positioning */
+.explainer-toggle {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  color: #007bff;
+}
+
+.explainer-toggle:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: #adb5bd;
+}
+
+.explainer-toggle.active {
+  background: #6b7b6d;
+  border-color: #6b7b6d;
+  color: white;
+}
+
+/* Hide explainer by default when toggle is inactive */
+.code-explainer.hidden {
+  display: none;
+}
+</style>

@@ -12,6 +12,16 @@ publishDir = '../godot-lisp.github.io'
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = false
+    noClasses = false
+    style = "github"
+    tabWidth = 4
 
 # Enable GitInfo to automatically track file modification dates
 [params.gitInfo]

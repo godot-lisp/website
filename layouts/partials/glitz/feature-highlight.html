@@ -1,0 +1,60 @@
+{{/* Feature highlight glitz partial - displays highlighted content */}}
+
+{{ $color := .color | default "primary" }}
+{{ $content := .content | default "" }}
+
+{{ $colorMap := dict
+  "primary" "#28a745"
+  "success" "#28a745"
+  "warning" "#ffc107"
+  "danger" "#dc3545"
+  "info" "#17a2b8"
+}}
+
+{{ $bgColor := index $colorMap $color | default "#28a745" }}
+
+<div class="glitz-feature-highlight" style="border-left-color: {{ $bgColor }};">
+  <div class="highlight-content">
+    {{ $content | markdownify }}
+  </div>
+</div>
+
+<style>
+.glitz-feature-highlight {
+  border-left: 4px solid;
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  background: rgba(40, 167, 69, 0.05);
+  position: relative;
+}
+
+.glitz-feature-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -4px;
+  width: 4px;
+  height: 100%;
+  background: inherit;
+  border-radius: 0 2px 2px 0;
+}
+
+.highlight-content {
+  color: #333;
+}
+
+.highlight-content h1,
+.highlight-content h2,
+.highlight-content h3,
+.highlight-content h4,
+.highlight-content h5,
+.highlight-content h6 {
+  margin-top: 0;
+  color: inherit;
+}
+
+.highlight-content p:last-child {
+  margin-bottom: 0;
+}
+</style>

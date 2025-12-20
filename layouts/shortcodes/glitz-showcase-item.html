@@ -1,0 +1,10 @@
+{{/* Shortcode: glitz-showcase-item
+   Usage:
+   {{< glitz-showcase-item title="Feature Title" icon="fas fa-star" >}}
+   Description of the feature goes here.
+   {{< /glitz-showcase-item >}}
+*/}}
+{{ $title := .Get "title" | default "Showcase Item" }}
+{{ $icon := .Get "icon" | default "fas fa-star" }}
+{{ $inner := .Inner | default "" }}
+{{ partial "glitz/showcase-item.html" (dict "title" $title "icon" $icon "content" $inner) }}

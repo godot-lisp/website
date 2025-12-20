@@ -1,0 +1,24 @@
+{{/* Shortcode: glitz-code-example
+   Usage:
+   {{< glitz-code-example language="lisp" title="Example Title" >}}
+   ;; Your code here
+
+   ---
+
+   ## Explanation
+   Your markdown explanation here...
+   {{< /glitz-code-example >}}
+*/}}
+{{ $language := .Get "language" | default "text" }}
+{{ $title := .Get "title" | default "Code Example" }}
+{{ $inner := .Inner | strings.TrimPrefix "\n" | strings.TrimSuffix "\n" | default "" }}
+
+{{/* Split content at --- delimiter */}}
+{{ $parts := split $inner "---" }}
+{{ $code := index $parts 0 | strings.TrimSpace }}
+{{ $explain := "" }}
+{{ if gt (len $parts) 1 }}
+  {{ $explain = index $parts 1 | strings.TrimSpace }}
+{{ end }}
+
+{{ partial "glitz/code-example.html" (dict "language" $language "title" $title "code" $code "explain" $explain) }}
