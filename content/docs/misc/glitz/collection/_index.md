@@ -84,11 +84,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor i
 
 Glamorous containers for showcasing technical concepts, roadmaps, and feature overviews with symbolic notation.
 
-{{< glitz-technical-vision title="Lorem Ipsum" >}}
+{{< glitz-points title="Lorem Ipsum" >}}
 λ | Dolor Sit | Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 Δ | Amet Consectetur | Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
 Φ | Ipsum Dolor | Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.
-{{< /glitz-technical-vision >}}
+{{< /glitz-points >}}
 
 ## FAQ Items
 

@@ -1342,16 +1342,27 @@ pre code {
   font-weight: 500;
 }
 
-.breadcrumb-nav .breadcrumb-item + .breadcrumb-item::before {
-  color: #adb5bd;
-  font-weight: normal;
+.glitz-annotation-inline:hover {
+  color: #5a32a3;
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+  display: inline-block;
 }
 
-.breadcrumb-separator {
-  color: #adb5bd;
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
-  font-weight: normal;
+blockquote {
+  font-size: 1.1em;
+  font-style: italic;
+  margin: 1rem 2rem;
+  padding: 0.5rem 1rem;
+  border-left: 4px solid #6f42c1;
+  background: #f8f9fa;
+  border-radius: 0.25rem;
+}
+
+blockquote blockquote {
+  margin: 0.5rem 1rem;
+  border-left-color: #ff8c00;
+  background: #e9ecef;
 }
 
 /* Breadcrumb dropdown functionality */

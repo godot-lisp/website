@@ -1,12 +1,12 @@
-{{/* Shortcode: glitz-technical-vision
+{{/* Shortcode: glitz-points
    Supports inner content and optional title parameter.
    Inner content format: each line "icon | title | quote"
    Example:
-   {{< glitz-technical-vision title="Technical Vision" >}}
+   {{< glitz-points title="Technical Vision" >}}
    λ | Homoiconic | Code Is Data; Data Is Code.<br>To reduce the friction between game-logic and game-data.
    # | Idiomatic Lisp | [PLACEHOLDER: Leveraging Lisp's unique features within Godot - macros, S-expressions, etc.]
    ∞ | Extensible Core | [PLACEHOLDER: How the framework can be extended and customized]
-   {{< /glitz-technical-vision >}}
+   {{< /glitz-points >}}
 */}}
 <link rel="stylesheet" href="{{ "css/glitz/technical-vision.css" | relURL }}">
 {{ $title := .Get "title" | default "" }}

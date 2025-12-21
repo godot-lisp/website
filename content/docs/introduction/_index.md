@@ -15,11 +15,16 @@ icon: "fas fa-info-circle"
   </div>
 </div>
 
-GOLI (Godot + Lisp) is a revolutionary extension that brings the power and elegance of Lisp programming to the Godot game engine. It seamlessly integrates Lisp as a scripting language, allowing developers to create games with unparalleled flexibility and expressiveness.
+Goli {{< glitz-annotation message="Godot + Lisp" >}} is a batteries-included development environment for Lisp; Powered by an opinionated dialect of Lisp (powered by ChezScheme) and designed for deep integration with a runtime / "realtime" heavy workflow for Godot Game-Engine. 
 
-{{< glitz-technical-vision >}}
+
+---
+> PLZ NOTE!
+>> This project is very early development. Closer to a "planning stage" if anything. Temper your expectations. -1 Vaporware at this point. lol
+
+{{< glitz-points >}}
 λ | Homoiconic | Code Is Data; Data Is Code.<br>To reduce the friction between game-logic and game-data.
 # | Idiomatic Lisp | [PLACEHOLDER: Leveraging Lisp's unique features within Godot - macros, S-expressions, etc.]
 ∞ | Extensible Core | [PLACEHOLDER: How the framework can be extended and customized]
-{{< /glitz-technical-vision >}}
+{{< /glitz-points >}}
 

@@ -1,0 +1,12 @@
+{{/* Shortcode: glitz-annotation
+   Usage:
+   {{< glitz-annotation >}}
+   This is an aside or annotation message.
+   {{< /glitz-annotation >}}
+*/}}
+{{/* Shortcode: glitz-annotation
+   Usage:
+   {{< glitz-annotation message="Your annotation text here" >}}
+*/}}
+{{ $message := .Get "message" | default "Annotation" | markdownify }}
+<span class="glitz-annotation-inline" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-trigger="manual" title="{{ $message }}" style="cursor: help; color: #6f42c1; font-weight: bold;">[!]</span>

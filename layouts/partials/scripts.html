@@ -3,6 +3,77 @@
 <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
 
 <script>
+  // Initialize Bootstrap tooltips
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl, { html: true });
+  });
+
+  // Make tooltips interactive: show on hover, toggle lock on click
+  tooltipList.forEach(function(tooltip, index) {
+    var trigger = tooltipTriggerList[index];
+    var locked = false;
+
+    trigger.addEventListener('mouseenter', function() {
+      tooltip.show();
+    });
+
+    trigger.addEventListener('mouseleave', function() {
+      if (!locked) {
+        tooltip.hide();
+      }
+    });
+
+    trigger.addEventListener('click', function() {
+      locked = !locked;
+      if (locked) {
+        tooltip.show();
+        trigger.style.color = 'orange';
+      } else {
+        tooltip.hide();
+        trigger.style.color = '#6f42c1';
+      }
+    });
+  });
+
+  // Initialize Bootstrap popovers
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl);
+  });
+
+  // Make popovers interactive: show on hover, stay open when hovering popover
+  popoverTriggerList.forEach(function(trigger) {
+    var popover = bootstrap.Popover.getInstance(trigger);
+    var hideTimeout;
+
+    function showPopover() {
+      clearTimeout(hideTimeout);
+      popover.show();
+    }
+
+    function hidePopover() {
+      hideTimeout = setTimeout(function() {
+        popover.hide();
+      }, 150);
+    }
+
+    trigger.addEventListener('mouseenter', showPopover);
+    trigger.addEventListener('mouseleave', hidePopover);
+
+    trigger.addEventListener('shown.bs.popover', function() {
+      var popoverElement = document.querySelector('.popover');
+      if (popoverElement) {
+        popoverElement.addEventListener('mouseenter', function() {
+          clearTimeout(hideTimeout);
+        });
+        popoverElement.addEventListener('mouseleave', hidePopover);
+      }
+    });
+  });
+</script>
+
+<script>
 (function(){
   function updateParens() {
     var span = document.querySelector('.fill-parens');
