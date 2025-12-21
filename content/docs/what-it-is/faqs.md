@@ -1,7 +1,6 @@
 ---
 title: "FAQ(s)"
 description: "Frequently asked questions about GOLI"
-date: 2025-12-16
 draft: false
 type: docs
 weight: 9

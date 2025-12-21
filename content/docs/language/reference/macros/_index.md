@@ -1,7 +1,6 @@
 ---
 title: "Macros"
 description: "Understanding and creating macros in GOLI Lisp"
-date: 2025-12-19
 draft: false
 type: docs
 weight: 4

@@ -3,6 +3,60 @@ title: Releases
 layout: releases
 ---
 
+<div style="
+  position: fixed;
+  top: 200px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-12deg);
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+">
+  <span>🚧 Work-In-Progress</span>
+  <button style="
+    background: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  " onclick="this.closest('[style*=&quot;position: fixed&quot;]').nextElementSibling.style.display = 'none'; this.closest('[style*=&quot;position: fixed&quot;]').style.display = 'none';">
+    ×
+  </button>
+</div>
+
+<div style="
+  position: fixed;
+  top: 275px;
+  left: -80px;
+  right: -80px;
+  width: calc(100vw + 160px);
+  background: repeating-linear-gradient(45deg, orange, orange 10px, white 10px, white 20px);
+  height: 60px;
+  z-index: 9999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transform: rotate(-12deg);
+  border-bottom: 5px solid #ff8c00;
+">
+</div>
+
+<div style="height: 100px;"></div> <!-- Spacer for the fixed banner -->
+
 <style>
 .page-title, h1, .post-title, .entry-title {
   display: none !important;

@@ -1,9 +1,8 @@
 ---
 title: "Community"
 description: "Join the GOLI community and connect with other developers"
-date: 2025-12-16
 draft: false
-weight: 13
+weight: 9
 icon: "fas fa-users"
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: "Motivations"
 description: "The motivations behind GOLI's development"
-date: 2025-12-18
 draft: false
 weight: 6
 icon: "fas fa-lightbulb"

@@ -1,7 +1,6 @@
 ---
 title: "Style Guide"
 description: "Best practices and conventions for writing GOLI Lisp code"
-date: 2025-12-19
 draft: false
 type: docs
 weight: 1

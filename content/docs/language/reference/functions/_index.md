@@ -1,7 +1,6 @@
 ---
 title: "Functions"
 description: "Guide to defining and using functions in GOLI Lisp"
-date: 2025-12-19
 draft: false
 type: docs
 weight: 3

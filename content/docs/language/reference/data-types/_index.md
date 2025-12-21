@@ -1,7 +1,6 @@
 ---
 title: "Data Types"
 description: "Overview of built-in data types and their usage in GOLI Lisp"
-date: 2025-12-19
 draft: false
 type: docs
 weight: 2

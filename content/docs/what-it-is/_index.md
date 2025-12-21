@@ -1,13 +1,19 @@
 ---
 title: "What It Is"
 description: "An overview of what GOLI is and what it does"
-date: 2025-12-16
 draft: false
 weight: 1
 icon: "fas fa-info-circle"
 ---
 
 # What It Is
+
+<div style="text-align: center; margin: 2rem 0;">
+  <div style="font: bold 2rem sans-serif; color: #3B9C3F; display: inline;">Goli = Godot + Lisp </div>
+  <div style="margin-top: 0.5rem;">
+    <img src="/logo.png" alt="GOLI Logo" style="max-width: 200px; height: auto;">
+  </div>
+</div>
 
 GOLI (Godot + Lisp) is a revolutionary extension that brings the power and elegance of Lisp programming to the Godot game engine. It seamlessly integrates Lisp as a scripting language, allowing developers to create games with unparalleled flexibility and expressiveness.
 

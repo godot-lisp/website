@@ -1,10 +1,9 @@
 ---
 title: "Misc"
 description: "Miscellaneous content and showcases"
-date: 2025-12-17
 draft: false
 type: docs
-weight: 15
+weight: 13
 category: "misc"
 icon: "fas fa-magic"
 ---

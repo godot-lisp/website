@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const preElement = example.querySelector('pre.chroma') || example.querySelector('pre');
     
     toggleButtons.forEach((button, btnIndex) => {
-      button.addEventListener('click', function(e) {
+      function handleToggle(e) {
         e.preventDefault();
         e.stopPropagation();
         const toggleType = this.getAttribute('data-toggle');
@@ -151,7 +151,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             break;
         }
-      });
+      }
+      
+      // Add both click and touch events for mobile compatibility
+      button.addEventListener('click', handleToggle);
+      button.addEventListener('touchstart', handleToggle);
     });
   });
 });

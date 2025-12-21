@@ -1,9 +1,8 @@
 ---
 title: "Contributing"
 description: "How to contribute to GOLI"
-date: 2025-12-17
 draft: false
-weight: 14
+weight: 11
 icon: "fas fa-handshake"
 ---
 
