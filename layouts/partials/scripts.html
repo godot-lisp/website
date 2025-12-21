@@ -120,7 +120,7 @@
       }
       
       // Position the toggle bar below the navbar if it exists
-      const toggleBar = document.querySelector('.sidebar-toggle-bar');
+      const toggleBar = document.querySelector('.doc-action-bar');
       if (nav && toggleBar) {
         const navHeight = nav.offsetHeight;
         toggleBar.style.setProperty('top', navHeight + 'px', 'important');
@@ -201,7 +201,7 @@
       }
       
       // Position the sidebar just below the toggle bar
-      const toggleBar = document.querySelector('.sidebar-toggle-bar');
+      const toggleBar = document.querySelector('.doc-action-bar');
       if (toggleBar) {
         const top = (toggleBar.offsetTop + toggleBar.offsetHeight) + 'px';
         if (showLeft && leftSidebar) {
@@ -334,4 +334,101 @@
   }
 })();
 </script>
+
+<!-- Breadcrumb dropdown functionality -->
+<script>
+(function() {
+  // Handle breadcrumb dropdowns
+  document.addEventListener('DOMContentLoaded', function() {
+    const dropdownToggles = document.querySelectorAll('.breadcrumb-dropdown-toggle, .breadcrumb-add-toggle');
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    dropdownToggles.forEach(function(toggle) {
+      const dropdown = toggle.nextElementSibling;
+      const listItem = toggle.closest('.breadcrumb-item');
+      let hideTimeout;
+      let isToggledOpen = false;
+      
+      // Show dropdown
+      function showDropdown() {
+        clearTimeout(hideTimeout);
+        // Hide other dropdowns first
+        document.querySelectorAll('.breadcrumb-dropdown').forEach(function(d) {
+          if (d !== dropdown) d.style.display = 'none';
+        });
+        document.querySelectorAll('.breadcrumb-item').forEach(function(item) {
+          item.classList.remove('sibling-toggled', 'children-toggled');
+        });
+        dropdown.style.display = 'block';
+        if (toggle.classList.contains('breadcrumb-dropdown-toggle')) {
+          listItem.classList.add('sibling-toggled');
+        } else if (toggle.classList.contains('breadcrumb-add-toggle')) {
+          listItem.classList.add('children-toggled');
+        }
+      }
+      
+      // Hide dropdown
+      function hideDropdown() {
+        if (!isToggledOpen) {
+          hideTimeout = setTimeout(function() {
+            dropdown.style.display = 'none';
+            listItem.classList.remove('sibling-toggled', 'children-toggled');
+          }, 150);
+        }
+      }
+      
+      // Mouse events - only work when not toggled and not on touch devices
+      if (!isTouchDevice) {
+        function handleMouseEnter() {
+          if (!isToggledOpen) {
+            showDropdown();
+          }
+        }
+        
+        function handleMouseLeave() {
+          if (!isToggledOpen) {
+            hideDropdown();
+          }
+        }
+        
+        toggle.addEventListener('mouseenter', handleMouseEnter);
+        toggle.addEventListener('mouseleave', handleMouseLeave);
+        dropdown.addEventListener('mouseenter', function() {
+          if (!isToggledOpen) {
+            clearTimeout(hideTimeout);
+          }
+        });
+        dropdown.addEventListener('mouseleave', handleMouseLeave);
+      }
+      
+      // Click/tap events - work on all devices
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        if (isToggledOpen) {
+          // Close the dropdown
+          dropdown.style.display = 'none';
+          listItem.classList.remove('sibling-toggled', 'children-toggled');
+          isToggledOpen = false;
+        } else {
+          // Open the dropdown
+          isToggledOpen = true;
+          showDropdown();
+        }
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!listItem.contains(e.target) && isToggledOpen) {
+          dropdown.style.display = 'none';
+          listItem.classList.remove('sibling-toggled', 'children-toggled');
+          isToggledOpen = false;
+        }
+      });
+    });
+  });
+})();
+</script>
+
 <script type="text/javascript" src="/js/custom.js"></script>

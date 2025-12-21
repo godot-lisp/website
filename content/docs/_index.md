@@ -14,7 +14,7 @@ Welcome to the comprehensive documentation for GOLI (Godot + Lisp), a powerful L
 
 ## Quick Start
 
-New to GOLI? Start with our [What It Is](/docs/what-it-is/) overview, then follow our [Installation Guide](/docs/installation/) and [Getting Started](/docs/getting-started/) tutorials to get up and running quickly.
+New to GOLI? Start with our [Introduction](/docs/introduction/) overview, then follow our [Installation Guide](/docs/installation/) and [Getting Started](/docs/getting-started/) tutorials to get up and running quickly.
 
 ## Sections
 

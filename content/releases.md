@@ -20,7 +20,8 @@ layout: releases
   align-items: center;
   gap: 15px;
 ">
-  <span>🚧 Work-In-Progress</span>
+  <span class="desktop-text">🚧 Work-In-Progress</span>
+  <span class="mobile-text">🚧 W.I.P.</span>
   <button style="
     background: white;
     color: black;
@@ -63,6 +64,16 @@ layout: releases
 }
 body {
   background: linear-gradient(135deg, #f8fff8 0%, #e6ffe6 100%) !important;
+}
+
+/* Responsive banner text */
+@media (max-width: 768px) {
+  .desktop-text { display: none; }
+  .mobile-text { display: inline; }
+}
+@media (min-width: 769px) {
+  .desktop-text { display: inline; }
+  .mobile-text { display: none; }
 }
 </style>
 

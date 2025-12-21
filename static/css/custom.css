@@ -944,23 +944,54 @@ pre code {
   z-index: 11;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-  .docs-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
+/* Standalone child cards should be half width */
+.docs-stack:hover .docs-children:has(> .docs-child:only-child),
+.docs-stack:hover .docs-children:has(> .docs-child-with-grandchildren:only-child),
+.docs-stack.expanded .docs-children:has(> .docs-child:only-child),
+.docs-stack.expanded .docs-children:has(> .docs-child-with-grandchildren:only-child) {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
 
-  .docs-card {
-    padding: 1.5rem;
-  }
+.docs-stack:hover .docs-children:has(> .docs-child:only-child) .docs-child,
+.docs-stack:hover .docs-children:has(> .docs-child-with-grandchildren:only-child) .docs-child-with-grandchildren,
+.docs-stack.expanded .docs-children:has(> .docs-child:only-child) .docs-child,
+.docs-stack.expanded .docs-children:has(> .docs-child-with-grandchildren:only-child) .docs-child-with-grandchildren {
+  max-width: 50%;
+  width: 100%;
+}
 
-  .docs-header h1 {
-    font-size: 2rem;
+/* Mobile breadcrumb adjustments */
+@media (max-width: 767.98px) {
+  .breadcrumb-nav .breadcrumb {
+    font-size: 0.8rem;
   }
+  
+  .breadcrumb-dropdown-toggle {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    min-width: 32px;
+    min-height: 32px;
+    margin-left: 0.5rem;
+  }
+  
+  .breadcrumb-dropdown {
+    min-width: 150px;
+    max-width: 250px;
+  }
+  
+  .breadcrumb-dropdown-item {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
 
-  .docs-header p {
-    font-size: 1.1rem;
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .breadcrumb-dropdown-toggle {
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 
@@ -1244,10 +1275,10 @@ pre code {
 }
 
 /* ====================================================
-   === Sidebar Toggle Bar ===
+   === Doc Action Bar ===
 ==================================================== */
 
-.sidebar-toggle-bar {
+.doc-action-bar {
   height: 48px;
   display: flex;
   align-items: center;
@@ -1255,7 +1286,7 @@ pre code {
   background-color: #f8f9fa !important;
 }
 
-.sidebar-toggle-bar .btn {
+.doc-action-bar .btn {
   border: 1px solid #dee2e6;
   background-color: #f8f9fa;
   color: #495057;
@@ -1268,24 +1299,160 @@ pre code {
   transition: all 0.2s ease;
 }
 
-.sidebar-toggle-bar .btn:hover {
+.doc-action-bar .btn:hover {
   background-color: #e9ecef;
   color: #212529;
   transform: scale(1.05);
 }
 
-.sidebar-toggle-bar .btn:focus {
+.doc-action-bar .btn:focus {
   box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
   outline: none;
 }
 
+/* Breadcrumb navigation in toggle bar */
+.breadcrumb-nav {
+  margin: 0;
+}
+
+.breadcrumb-nav .breadcrumb {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9rem;
+}
+
+.breadcrumb-nav .breadcrumb-item {
+  color: #6c757d;
+}
+
+.breadcrumb-nav .breadcrumb-item a {
+  color: var(--theme-primary);
+  text-decoration: none;
+}
+
+.breadcrumb-nav .breadcrumb-item a:hover {
+  color: var(--theme-secondary);
+  text-decoration: underline;
+}
+
+.breadcrumb-nav .breadcrumb-item.active {
+  color: #495057;
+  font-weight: 500;
+}
+
+.breadcrumb-nav .breadcrumb-item + .breadcrumb-item::before {
+  color: #adb5bd;
+  font-weight: normal;
+}
+
+.breadcrumb-separator {
+  color: #adb5bd;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  font-weight: normal;
+}
+
+/* Breadcrumb dropdown functionality */
+.breadcrumb-dropdown-toggle {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  font-size: 0.75rem;
+  transition: color 0.2s ease;
+  margin-left: 0.25rem;
+}
+
+.breadcrumb-dropdown-toggle:hover {
+  color: var(--theme-primary);
+}
+
+.breadcrumb-add-toggle {
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  font-size: 0.75rem;
+  transition: color 0.2s ease;
+  margin-left: 0.25rem;
+}
+
+.breadcrumb-add-toggle:hover {
+  background-color: #f8f9fa;
+}
+
+.children-toggled .breadcrumb-add-toggle {
+  color: var(--theme-primary);
+  background-color: rgba(0, 100, 0, 0.1);
+  border-radius: 3px;
+}
+
+.sibling-toggled .breadcrumb-dropdown-toggle {
+  color: var(--theme-primary);
+  background-color: rgba(0, 100, 0, 0.1);
+  border-radius: 3px;
+}
+
+.breadcrumb-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.breadcrumb-dropdown-item {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: #495057;
+  text-decoration: none;
+  border-bottom: 1px solid #f8f9fa;
+  transition: background-color 0.2s ease;
+  text-align: right;
+}
+
+.breadcrumb-dropdown-item:hover,
+.breadcrumb-dropdown-item:focus {
+  background-color: #f8f9fa;
+  color: var(--theme-primary);
+  text-decoration: none;
+}
+
+.breadcrumb-dropdown-item.current-page {
+  color: #495057;
+  font-weight: 500;
+  cursor: default;
+  pointer-events: none;
+  background-color: #e9ecef;
+}
+
+.breadcrumb-dropdown-item.current-page:hover,
+.breadcrumb-dropdown-item.current-page:focus {
+  background-color: #e9ecef;
+  color: #495057;
+}
+
+.has-siblings {
+  position: relative;
+}
+
 /* Mobile improvements */
 @media (max-width: 767.98px) {
-  .sidebar-toggle-bar {
+  .doc-action-bar {
     height: 52px;
   }
 
-  .sidebar-toggle-bar .btn {
+  .doc-action-bar .btn {
     min-width: 48px;
     min-height: 48px;
     font-size: 1.2rem;
@@ -1294,7 +1461,7 @@ pre code {
 
 /* High zoom improvements */
 @media (min-resolution: 2dppx) {
-  .sidebar-toggle-bar .btn {
+  .doc-action-bar .btn {
     min-width: 48px;
     min-height: 48px;
     font-size: 1.2rem;
@@ -1459,6 +1626,6 @@ body {
 ==================================================== */
 @media (max-width: 767px) {
   .sidebar-left, .sidebar-right {
-    top: 60px !important; /* Position below the sidebar-toggle-bar */
+    top: 60px !important; /* Position below the doc-action-bar */
   }
 }

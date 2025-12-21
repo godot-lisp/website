@@ -1,12 +1,12 @@
 ---
-title: "What It Is"
+title: "Introduction"
 description: "An overview of what GOLI is and what it does"
 draft: false
 weight: 1
 icon: "fas fa-info-circle"
 ---
 
-# What It Is
+# Introduction
 
 <div style="text-align: center; margin: 2rem 0;">
   <div style="font: bold 2rem sans-serif; color: #3B9C3F; display: inline;">Goli = Godot + Lisp </div>
