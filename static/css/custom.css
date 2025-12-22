@@ -1365,6 +1365,10 @@ blockquote blockquote {
   background: #e9ecef;
 }
 
+
+blockquote blockquote blockquote {
+  border-left: 4px solid green;
+}
 /* Breadcrumb dropdown functionality */
 .breadcrumb-dropdown-toggle {
   background: none;

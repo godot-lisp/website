@@ -15,28 +15,14 @@
 
   <div class="collapse navbar-collapse" id="navbar_collapse">
       <ul class="navbar-nav mr-auto">
-        {{ if .Site.Taxonomies.tags }}
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-            Tags <b class="caret"></b>
-          </a>
-
-          <div class="dropdown-menu" style="background-color: #006400; border: 1px solid #3B9C3F; border-radius: 0.25rem;">
-            {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
-            <a class="dropdown-item themed-dropdown-item" href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}">{{ $name }}</a>
-            {{ end }}
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="/releases/">Rels</a>
         </li>
-        {{ end }}
-
         <li class="nav-item">
           <a class="nav-link" href="/news/">News</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/docs/">Docs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/releases/">Rels</a>
         </li>
 
         {{ range .Site.Menus.main }}
