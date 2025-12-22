@@ -72,12 +72,14 @@
                   </a>
                   <div class="docs-grandchildren">
                     {{ range .Pages.ByWeight }}
-                      <div class="docs-grandchild-square" data-synopsis="{{ .Params.description | default .Summary }}">
-                        <div class="docs-grandchild-icon">
-                          <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+                      <div class="docs-grandchild-container">
+                        <div class="docs-grandchild-square" data-synopsis="{{ .Params.description | default .Summary }}">
+                          <div class="docs-grandchild-icon">
+                            <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+                          </div>
+                          <div class="docs-grandchild-title">{{ .Title }}</div>
+                          <a href="{{ .Permalink }}" class="docs-grandchild-link"></a>
                         </div>
-                        <div class="docs-grandchild-title">{{ .Title }}</div>
-                        <a href="{{ .Permalink }}" class="docs-grandchild-link"></a>
                       </div>
                     {{ end }}
                   </div>

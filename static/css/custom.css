@@ -1147,10 +1147,10 @@ pre code {
 }
 
 .sub-sub-nav {
-  margin-left: 1rem;
-  border-left: 2px solid #adb5bd;
+  margin-left: 1.5rem;
+  border-left: 2px solid #dee2e6;
   padding-left: 0.5rem;
-  background-color: #f1f3f4;
+  background-color: #f8f9fa;
 }
 
 .sub-sub-nav .nav-link {
@@ -1643,4 +1643,66 @@ body {
   .sidebar-left, .sidebar-right {
     top: 60px !important; /* Position below the doc-action-bar */
   }
+}
+
+
+
+/* Ensure great-grandchildren have same background as other nested items */
+.sub-sub-nav .sub-sub-nav {
+  background-color: #f8f9fa !important;
+}
+
+.sub-sub-nav .sub-sub-nav .nav-link {
+  background-color: transparent !important;
+}
+
+
+/* More specific rules for great-grandchildren sidebar backgrounds */
+.sidebar-left .sub-sub-nav .sub-sub-nav {
+  background-color: #f8f9fa !important;
+}
+
+.sidebar-left .sub-sub-nav .sub-sub-nav .nav-link {
+  background-color: transparent !important;
+  color: #6c757d !important;
+}
+
+/* Override Bootstrap nav defaults for nested sub-sub-nav */
+.sidebar-left .nav.flex-column.sub-sub-nav .nav.flex-column.sub-sub-nav {
+  background-color: #f8f9fa !important;
+}
+
+.sidebar-left .nav.flex-column.sub-sub-nav .nav.flex-column.sub-sub-nav .nav-link {
+  background-color: transparent !important;
+  color: #6c757d !important;
+}
+
+/* Maximum specificity override for great-grandchildren */
+.sidebar-left nav.col-md-3 nav ul.nav.flex-column.sub-sub-nav ul.nav.flex-column.sub-sub-nav {
+  background-color: #f8f9fa !important;
+}
+
+.sidebar-left nav.col-md-3 nav ul.nav.flex-column.sub-sub-nav ul.nav.flex-column.sub-sub-nav li.nav-item a.nav-link {
+  background-color: transparent !important;
+  color: #6c757d !important;
+}
+
+/* Maximum specificity override for great-grandchildren */
+.sidebar-left nav.col-md-3 nav ul.nav.flex-column.sub-sub-nav ul.nav.flex-column.sub-sub-nav {
+  background-color: #f8f9fa !important;
+}
+
+.sidebar-left nav.col-md-3 nav ul.nav.flex-column.sub-sub-nav ul.nav.flex-column.sub-sub-nav li.nav-item a.nav-link {
+  background-color: transparent !important;
+  color: #6c757d !important;
+}
+
+/* Direct targeting of nested ul elements */
+ul.nav.flex-column.sub-sub-nav ul.nav.flex-column.sub-sub-nav {
+  background-color: #f8f9fa !important;
+}
+
+ul.nav.flex-column.sub-sub-nav ul.nav.flex-column.sub-sub-nav li.nav-item a.nav-link {
+  background-color: transparent !important;
+  color: #6c757d !important;
 }

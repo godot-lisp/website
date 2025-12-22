@@ -1,7 +1,7 @@
 {{ $page := .page | default . }}
 {{ $level := .level | default 0 }}
 {{ $class := cond (eq $level 0) "sub-nav" (cond (eq $level 1) "sub-nav" "sub-sub-nav") }}
-{{ $showChildren := lt $level 2 }}
+{{ $showChildren := lt $level 3 }}
 <li class="nav-item">
   <a class="nav-link{{ if eq $.Page.RelPermalink $page.RelPermalink }} active{{ end }}" href="{{ $page.RelPermalink }}">
     <i class="{{ if $page.Params.icon }}{{ $page.Params.icon }}{{ else }}fas fa-file{{ end }}"></i> {{ $page.Title }}

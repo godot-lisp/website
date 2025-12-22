@@ -5,7 +5,7 @@ draft: false
 type: docs
 weight: 13
 category: "misc"
-icon: "fas fa-magic"
+icon: "fas fa-folder-open"
 ---
 
 # Misc

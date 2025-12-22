@@ -28,3 +28,20 @@ Goli {{< glitz-annotation message="Godot + Lisp" >}} is a batteries-included dev
 ∞ | Extensible Core | [PLACEHOLDER: How the framework can be extended and customized]
 {{< /glitz-points >}}
 
+</br>
+</br>
+</br>
+
+
+---
+
+</br>
+
+
+### Something More Practical, Short-Term
+
+{{< glitz-showcase-item title="Sexp7 - GDExtension Research" icon="fas fa-flask" >}}
+A fork of godot-s7-scheme serving as our implementation guide for GDExtension integration. This research project helps us understand how to properly integrate Lisp interpreters with Godot's extension system.
+
+[Learn more about Sexp7 →](/docs/misc/sexp7/)
+{{< /glitz-showcase-item >}}

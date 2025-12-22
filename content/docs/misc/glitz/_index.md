@@ -3,7 +3,8 @@ title: "Glitz"
 description: "Showy and glamorous widgets to aid documentation writing"
 draft: false
 type: docs
-weight: 1
+weight: 2
+icon: "fas fa-palette"
 ---
 
 # Glitz
