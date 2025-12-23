@@ -1,6 +1,6 @@
 ---
 title: "Simple Game"
-description: "A basic game example demonstrating core GOLI concepts"
+description: "A basic game example demonstrating core Sexp7 concepts"
 date: 2025-12-19
 draft: false
 type: docs
@@ -10,7 +10,7 @@ icon: "fas fa-lightbulb"
 
 # Simple Game Example
 
-Build a simple game to learn fundamental GOLI Lisp programming concepts.
+Build a simple game to learn fundamental Sexp7 programming concepts.
 
 {{< glitz-placeholder >}}
 [PLACEHOLDER: Simple game example - player movement, basic gameplay, etc.]

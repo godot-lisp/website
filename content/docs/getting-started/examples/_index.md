@@ -10,3 +10,5 @@ icon: "fas fa-lightbulb"
 ---
 
 # Examples
+
+The examples have been moved to the [Sexp7 Examples](../misc/sexp7/exs/) section for better organization.

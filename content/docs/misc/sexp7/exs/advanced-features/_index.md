@@ -1,6 +1,6 @@
 ---
 title: "Advanced Features"
-description: "Showcase of advanced GOLI Lisp features and techniques"
+description: "Showcase of advanced Sexp7 features and techniques"
 date: 2025-12-19
 draft: false
 type: docs
@@ -10,7 +10,7 @@ icon: "fas fa-lightbulb"
 
 # Advanced Features Example
 
-Explore advanced GOLI Lisp features including macros, advanced data structures, and complex game logic.
+Explore advanced Sexp7 features including macros, advanced data structures, and complex game logic.
 
 {{< glitz-placeholder >}}
 [PLACEHOLDER: Advanced features example - macros, complex data handling, etc.]

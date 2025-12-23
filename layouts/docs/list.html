@@ -77,9 +77,30 @@
                           <div class="docs-grandchild-icon">
                             <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
                           </div>
-                          <div class="docs-grandchild-title">{{ .Title }}</div>
+                          <div class="docs-grandchild-row">
+                            <div class="docs-grandchild-content">
+                              <h3 class="docs-grandchild-title">{{ .Title }}</h3>
+                              <p class="docs-grandchild-description">{{ .Params.description | default .Summary }}</p>
+                            </div>
+                            <div class="docs-card-arrow">
+                              <i class="fas fa-chevron-right"></i>
+                            </div>
+                          </div>
                           <a href="{{ .Permalink }}" class="docs-grandchild-link"></a>
                         </div>
+                        {{ if .Pages }}
+                        <div class="docs-great-grandchildren">
+                          {{ range .Pages.ByWeight }}
+                            <div class="docs-great-grandchild-square" data-synopsis="{{ .Params.description | default .Summary }}">
+                              <div class="docs-great-grandchild-icon">
+                                <i class="{{ .Params.icon | default "fas fa-file" }}"></i>
+                              </div>
+                              <div class="docs-great-grandchild-title">{{ .Title }}</div>
+                              <a href="{{ .Permalink }}" class="docs-great-grandchild-link"></a>
+                            </div>
+                          {{ end }}
+                        </div>
+                        {{ end }}
                       </div>
                     {{ end }}
                   </div>
